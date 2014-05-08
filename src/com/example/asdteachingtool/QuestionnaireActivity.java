@@ -28,6 +28,10 @@ public class QuestionnaireActivity extends Activity {
 		questionnaire.title = "Feliz";
 		questionnaire.save();
 		
+		System.out.println("=====================");
+		System.out.println(Questionnaire.all());
+		System.out.println("=====================");
+		
 		Option option1 = new Option();
 		option1.questionnaire = questionnaire;
 		option1.text = "Rosto sorridente";
@@ -62,6 +66,9 @@ public class QuestionnaireActivity extends Activity {
 					Option option = Option.load(Option.class, button.getId());
 					if (option.correct) {
 						button.setText("ACERTOU!");
+					} else {
+						Intent intent = new Intent(v.getContext(), SetupActivity.class);
+						v.getContext().startActivity(intent);
 					}
 				}
 			});

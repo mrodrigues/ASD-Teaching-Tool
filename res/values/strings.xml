@@ -8,5 +8,7 @@
     <string name="title_activity_questionnaire">Questionnaire</string>
     <string name="title_activity_display_message">My Message</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_setup">SetupActivity</string>
+    <string name="new_questionnaire">New questionnaire</string>
 
 </resources>
