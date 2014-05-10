@@ -13,6 +13,6 @@ public class Option extends Model {
 	@Column(name = "Text")
 	public String text;
 	
-	@Column(name = "Questionnaire")
-	public Questionnaire questionnaire;
+	@Column(name = "Question")
+	public Question question;
 }

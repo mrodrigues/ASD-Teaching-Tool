@@ -7,17 +7,17 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 
-@Table(name = "Questionnaires")
-public class Questionnaire extends Model {
+@Table(name = "Questions")
+public class Question extends Model {
 	
 	@Column(name = "Title")
 	public String title;
 	
 	public List<Option> options() {
-		return getMany(Option.class, "Questionnaire");
+		return getMany(Option.class, "Question");
 	}
 	
-	public static List<Questionnaire> all() {
-		return new Select().from(Questionnaire.class).execute();
+	public static List<Question> all() {
+		return new Select().from(Question.class).execute();
 	}
 }

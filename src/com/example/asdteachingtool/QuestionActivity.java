@@ -13,9 +13,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.asdteachingtool.models.Option;
-import com.example.asdteachingtool.models.Questionnaire;
+import com.example.asdteachingtool.models.Question;
 
-public class QuestionnaireActivity extends Activity {
+public class QuestionActivity extends Activity {
 	
 	public final static String EXTRA_MESSAGE = "com.example.asdteachingtool.MESSAGE";
 
@@ -24,22 +24,22 @@ public class QuestionnaireActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_questionnaire);
 		// ---- TEST SAMPLE ------
-		Questionnaire questionnaire = new Questionnaire();
-		questionnaire.title = "Feliz";
-		questionnaire.save();
+		Question question = new Question();
+		question.title = "Feliz";
+		question.save();
 		
 		System.out.println("=====================");
-		System.out.println(Questionnaire.all());
+		System.out.println(Question.all());
 		System.out.println("=====================");
 		
 		Option option1 = new Option();
-		option1.questionnaire = questionnaire;
+		option1.question = question;
 		option1.text = "Rosto sorridente";
 		option1.correct = true;
 		option1.save();
 
 		Option option2 = new Option();
-		option2.questionnaire = questionnaire;
+		option2.question = question;
 		option2.text = "Rosto triste";
 		option2.correct = false;
 		option2.save();
@@ -47,11 +47,11 @@ public class QuestionnaireActivity extends Activity {
 		
 		TextView questionnaireView = (TextView) findViewById(R.id.questionnaire_view);
 		questionnaireView.setTextSize(40);
-		questionnaireView.setText(questionnaire.title);
+		questionnaireView.setText(question.title);
 		
 		ViewGroup optionsContainer = (ViewGroup) findViewById(R.id.options_container);
 		optionsContainer.removeAllViews();
-		for (Option option : questionnaire.options()) {
+		for (Option option : question.options()) {
 			Button optionView = new Button(this);
 			optionView.setTextSize(20);
 			optionView.setText(option.text);
@@ -67,7 +67,7 @@ public class QuestionnaireActivity extends Activity {
 					if (option.correct) {
 						button.setText("ACERTOU!");
 					} else {
-						Intent intent = new Intent(v.getContext(), SetupActivity.class);
+						Intent intent = new Intent(v.getContext(), QuestionsListActivity.class);
 						v.getContext().startActivity(intent);
 					}
 				}

@@ -1,18 +1,20 @@
 package com.example.asdteachingtool;
 
-import com.example.asdteachingtool.models.Questionnaire;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-public class SetupActivity extends Activity {
+import com.example.asdteachingtool.models.Question;
+
+public class QuestionsListActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -21,11 +23,11 @@ public class SetupActivity extends Activity {
 		
 		ViewGroup questionnairesList = (ViewGroup) findViewById(R.id.questionnaires_list);
 		questionnairesList.removeAllViews();
-		for (Questionnaire questionnaire : Questionnaire.all()) {
+		for (Question question : Question.all()) {
 			Button questionnaireView = new Button(this);
 			questionnaireView.setTextSize(20);
-			questionnaireView.setText(questionnaire.title);
-			questionnaireView.setId(questionnaire.getId().intValue());
+			questionnaireView.setText(question.title);
+			questionnaireView.setId(question.getId().intValue());
 			questionnairesList.addView(questionnaireView);
 		}
 		
@@ -67,4 +69,7 @@ public class SetupActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	public void newQuestion(View view) {
+		startActivity(new Intent(this, NewQuestionActivity.class));
+	}
 }

@@ -3,27 +3,22 @@ package com.example.asdteachingtool;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
+import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.ImageView;
 
-public class DisplayMessageActivity extends Activity {
+public class NewQuestionActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		Intent intent = getIntent();
-		String message = getSharedPreferences("a", MODE_PRIVATE).getString(QuestionActivity.EXTRA_MESSAGE, "!!!!");
-				//intent.getStringExtra(QuestionnaireActivity.EXTRA_MESSAGE);
-		
-		TextView textView = new TextView(this);
-		textView.setTextSize(40);
-		textView.setText(message);
-		
-		setContentView(textView);
+		setContentView(R.layout.activity_new_question);
 		// Show the Up button in the action bar.
 		setupActionBar();
 	}
@@ -36,6 +31,13 @@ public class DisplayMessageActivity extends Activity {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			getActionBar().setDisplayHomeAsUpEnabled(true);
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.new_question, menu);
+		return true;
 	}
 
 	@Override
@@ -55,4 +57,18 @@ public class DisplayMessageActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	public void takePicture(View v) {
+		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		startActivityForResult(takePictureIntent, 0);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+			Bundle extras = data.getExtras();
+			System.out.println("===============");
+			System.out.println(extras);
+			System.out.println("===============");
+			Bitmap bitmap = (Bitmap) extras.get("data");
+			((ImageView) findViewById(R.id.questionPicture)).setImageBitmap(bitmap);
+	}
 }

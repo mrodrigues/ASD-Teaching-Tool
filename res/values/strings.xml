@@ -10,5 +10,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_setup">SetupActivity</string>
     <string name="new_questionnaire">New questionnaire</string>
+    <string name="title_activity_new_question">New Question</string>
+    <string name="question_title">Title</string>
+    <string name="take_picture">Take picture</string>
 
 </resources>
