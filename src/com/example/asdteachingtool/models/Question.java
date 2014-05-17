@@ -10,8 +10,15 @@ import com.activeandroid.query.Select;
 @Table(name = "Questions")
 public class Question extends Model {
 	
+	public Question() {
+		title = "";
+	}
+	
 	@Column(name = "Title")
 	public String title;
+	
+	@Column(name= "Picture")
+	public byte[] picture;
 	
 	public List<Option> options() {
 		return getMany(Option.class, "Question");

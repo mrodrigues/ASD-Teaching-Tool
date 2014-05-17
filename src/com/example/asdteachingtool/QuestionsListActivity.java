@@ -9,6 +9,7 @@ import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 
@@ -24,11 +25,19 @@ public class QuestionsListActivity extends Activity {
 		ViewGroup questionnairesList = (ViewGroup) findViewById(R.id.questionnaires_list);
 		questionnairesList.removeAllViews();
 		for (Question question : Question.all()) {
-			Button questionnaireView = new Button(this);
-			questionnaireView.setTextSize(20);
-			questionnaireView.setText(question.title);
-			questionnaireView.setId(question.getId().intValue());
-			questionnairesList.addView(questionnaireView);
+			Button questionView = new Button(this);
+			questionView.setTextSize(20);
+			questionView.setText(question.title);
+			questionView.setTag(question.getId());
+			questionnairesList.addView(questionView);
+			questionView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(v.getContext(), QuestionFormActivity.class);
+					intent.putExtra(QuestionFormActivity.EXTRA_QUESTION_ID, (Long) v.getTag());
+					startActivity(intent);
+				}
+			});
 		}
 		
 		// Show the Up button in the action bar.
@@ -70,6 +79,6 @@ public class QuestionsListActivity extends Activity {
 	}
 
 	public void newQuestion(View view) {
-		startActivity(new Intent(this, NewQuestionActivity.class));
+		startActivity(new Intent(this, QuestionFormActivity.class));
 	}
 }

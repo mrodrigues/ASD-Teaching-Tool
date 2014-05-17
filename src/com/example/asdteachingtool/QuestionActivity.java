@@ -18,32 +18,36 @@ import com.example.asdteachingtool.models.Question;
 public class QuestionActivity extends Activity {
 	
 	public final static String EXTRA_MESSAGE = "com.example.asdteachingtool.MESSAGE";
+	public final static String EXTRA_QUESTION_ID = "com.example.asdteachingtool.QUESTION_ID";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_questionnaire);
+		setContentView(R.layout.activity_question);
 		// ---- TEST SAMPLE ------
-		Question question = new Question();
-		question.title = "Feliz";
-		question.save();
-		
-		System.out.println("=====================");
-		System.out.println(Question.all());
-		System.out.println("=====================");
-		
-		Option option1 = new Option();
-		option1.question = question;
-		option1.text = "Rosto sorridente";
-		option1.correct = true;
-		option1.save();
-
-		Option option2 = new Option();
-		option2.question = question;
-		option2.text = "Rosto triste";
-		option2.correct = false;
-		option2.save();
+		Question question = null;
+		if (Question.all().size() == 0) {
+			question = new Question();
+			question.title = "Feliz";
+			question.save();
+			
+			Option option1 = new Option();
+			option1.question = question;
+			option1.text = "Rosto sorridente";
+			option1.correct = true;
+			option1.save();
+	
+			Option option2 = new Option();
+			option2.question = question;
+			option2.text = "Rosto triste";
+			option2.correct = false;
+			option2.save();
+		} else {
+			question = Question.all().get(0);
+		}
 		// -----------------------
+		
+		setTitle(question.title);
 		
 		TextView questionnaireView = (TextView) findViewById(R.id.questionnaire_view);
 		questionnaireView.setTextSize(40);

@@ -13,6 +13,9 @@ public class Option extends Model {
 	@Column(name = "Text")
 	public String text;
 	
+	@Column(name = "Picture")
+	public byte[] picture;
+	
 	@Column(name = "Question")
 	public Question question;
 }

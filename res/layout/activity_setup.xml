@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="@string/new_questionnaire"
+        android:text="@string/new_question"
         android:onClick="newQuestion" />
 
 </RelativeLayout>

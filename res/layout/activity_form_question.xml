@@ -8,14 +8,14 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".NewQuestionActivity" >
+    tools:context=".QuestionFormActivity" >
 
     <EditText
         android:id="@+id/questionTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/question_title"
-        android:ems="10" >
+        android:ems="10"
+        android:hint="@string/question_title" >
 
         <requestFocus />
     </EditText>
@@ -30,7 +30,29 @@
         android:id="@+id/questionTakePicture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/take_picture"
-        android:onClick="takePicture" />
+        android:onClick="questionTakePicture"
+        android:text="@string/take_picture" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/options_section"
+        android:textSize="30sp" />
+
+    <LinearLayout
+        android:id="@+id/options_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <include layout="@layout/option" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/saveQuestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="saveQuestion"
+        android:text="@string/save_question" />
 
 </LinearLayout>

@@ -5,8 +5,8 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="18" />
+        android:minSdkVersion="8"
+        android:targetSdkVersion="8" />
 
     <uses-permission 
         android:name="android.permission.CAMERA" />
@@ -56,8 +56,9 @@
                 android:value="com.example.asdteachingtool.QuestionnaireActivity" />
         </activity>
         <activity
-            android:name="com.example.asdteachingtool.NewQuestionActivity"
+            android:name="com.example.asdteachingtool.QuestionFormActivity"
             android:label="@string/title_activity_new_question"
+            android:configChanges="orientation"
             android:parentActivityName="com.example.asdteachingtool.QuestionsListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
