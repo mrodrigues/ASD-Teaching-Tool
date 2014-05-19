@@ -1,14 +1,13 @@
 package com.example.asdteachingtool;
 
-import java.io.ByteArrayOutputStream;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -19,11 +18,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.activeandroid.ActiveAndroid;
+import com.example.asdteachingtool.methodobjects.ReceivePicture;
 import com.example.asdteachingtool.models.Option;
 import com.example.asdteachingtool.models.Question;
 
@@ -36,7 +35,7 @@ public class QuestionFormActivity extends Activity {
 	private EditText questionTitleTextView;
 	private ImageView questionThumbnail;
 	private ViewGroup optionsContainer;
-	private ImageView pictureView;
+	private ReceivePicture receivePicture;
 
 	private Question question;
 
@@ -50,18 +49,29 @@ public class QuestionFormActivity extends Activity {
 		optionsContainer = (ViewGroup) findViewById(R.id.options_container);
 		optionsContainer.removeAllViews();
 
-		Long id = getIntent().getLongExtra(EXTRA_QUESTION_ID, -1);
-		if (id == -1) {
+		Long questionId = getIntent().getLongExtra(EXTRA_QUESTION_ID, -1);
+		if (questionId == -1) {
 			this.question = new Question();
+			((ViewGroup) findViewById(R.id.questionForm))
+					.removeView(findViewById(R.id.deleteQuestion));
 		} else {
 			ActiveAndroid.clearCache();
-			this.question = Question.load(Question.class, id);
+			this.question = Question.load(Question.class, questionId);
 			setTitle(getString(R.string.edit_question) + " " + question.title);
 		}
 		updateView();
 
 		// Show the Up button in the action bar.
 		setupActionBar();
+	}
+
+	private void updateView() {
+		questionTitleTextView.setText(question.title);
+		new ReceivePicture(questionThumbnail).receive(question.picture);
+
+		for (Option option : question.options()) {
+			newOptionView(option);
+		}
 	}
 
 	/**
@@ -98,17 +108,8 @@ public class QuestionFormActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		System.err.println("===================================");
-		System.err.println("onConfigurationChanged");
-		System.err.println("===================================");
-		super.onConfigurationChanged(newConfig);
-		updateView();
-	}
-
 	public void questionTakePicture(View v) {
-		pictureView = questionThumbnail;
+		receivePicture = new ReceivePicture(questionThumbnail);
 		takePicture();
 	}
 
@@ -123,128 +124,106 @@ public class QuestionFormActivity extends Activity {
 		case TAKE_PICTURE:
 			if (resultCode == RESULT_OK) {
 				Bundle extras = data.getExtras();
-				pictureView.setTag(extras.get("data"));
-				pictureView = null;
-				updateQuestion();
+				receivePicture.receive((Bitmap) extras.get("data"));
+				receivePicture = null;
 			}
 			break;
 		}
 	}
 
-	private byte[] getPictureFromView(ImageView view) {
-		Bitmap picture = (Bitmap) view.getTag();
-		if (picture != null) {
-			ByteArrayOutputStream stream = new ByteArrayOutputStream();
-			picture.compress(Bitmap.CompressFormat.PNG, 100, stream);
-			return stream.toByteArray();
-		}
-		return null;
+	public void saveQuestion(View v) {
+		updateQuestion();
+		back();
 	}
 
 	public void updateQuestion() {
-		question.title = questionTitleTextView.getText().toString();
-		question.picture = getPictureFromView(questionThumbnail);
+		ActiveAndroid.beginTransaction();
+		try {
+			question.title = questionTitleTextView.getText().toString();
+			question.picture = (byte[]) questionThumbnail.getTag();
 
-		for (int i = 0; i < optionsContainer.getChildCount(); i++) {
-			ViewGroup optionView = (ViewGroup) optionsContainer.getChildAt(i);
+			deleteOptions();
 
-			Option option = (Option) optionView.getTag();
-			option.text = ((EditText) optionView.findViewById(R.id.optionText))
-					.getText().toString();
-			option.text = "WTFFFFFFFFF";
+			for (int i = 0; i < optionsContainer.getChildCount(); i++) {
+				ViewGroup optionView = (ViewGroup) optionsContainer
+						.getChildAt(i);
+				Option option = new Option();
 
-			System.err.println("==================");
-			System.err.println("updateQuestion");
-			Option o = question.options().get(
-					question.options().indexOf(option));
-			System.err.println(option.hashCode());
-			System.err.println(o.hashCode());
-			System.err.println(option);
-			System.err.println(o);
-			System.err.println(option == o);
-			System.err.println(option.equals(o));
-			o.text = "WTFFFFFFFFF";
-			System.err.println(o.text);
-			System.err.println(((EditText) optionView
-					.findViewById(R.id.optionText)).getText().toString());
-			System.err.println(option.text);
-			System.err.println("==================");
-
-			option.picture = getPictureFromView((ImageView) optionView
-					.findViewById(R.id.optionPicture));
-			if (question.options().indexOf(option) == -1) {
-				question.options().add(option);
+				option.question = question;
+				option.text = ((EditText) optionView
+						.findViewById(R.id.optionText)).getText().toString();
+				option.picture = (byte[]) optionView.findViewById(
+						R.id.optionPicture).getTag();
+				option.save();
 			}
-		}
+			question.save();
 
-		updateView();
+			ActiveAndroid.setTransactionSuccessful();
+		} finally {
+			ActiveAndroid.endTransaction();
+		}
 	}
 
-	private void updateView() {
-
-		System.err.println("==================");
-		System.err.println("updateView");
-		System.err.println("==================");
-		questionTitleTextView.setText(question.title);
-
-		if (question.picture != null && question.picture.length > 0) {
-			questionThumbnail.setVisibility(View.VISIBLE);
-			questionThumbnail.setImageBitmap(BitmapFactory.decodeByteArray(
-					question.picture, 0, question.picture.length));
-		} else {
-			questionThumbnail.setVisibility(View.INVISIBLE);
-		}
-
+	private void deleteOptions() {
 		for (Option option : question.options()) {
-			ViewGroup v = (ViewGroup) optionsContainer.findViewWithTag(option);
-			if (v == null) {
-				System.err.println("==================");
-				System.err.println("newOption");
-				System.err.println("==================");
-				newOption(option);
-			} else {
-				System.err.println("==================");
-				System.err.println("populateOptionView");
-				System.err.println("==================");
-				populateOptionView(option, v);
-			}
-			System.err.println("==================");
-			System.err.println("updateView inside options");
-			System.err.println(option.hashCode());
-			System.err.println(option.text);
-			System.err.println("==================");
+			option.delete();
 		}
 	}
 
-	public void saveQuestion(View v) {
-		updateQuestion();
-		question.save();
+	private void back() {
 		NavUtils.navigateUpFromSameTask(this);
 	}
 
-	public void newOption() {
-		newOption(new Option());
+	public void deleteQuestion(View v) {
+		confirm(R.string.confirm_delete_question,
+				new android.content.DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						ActiveAndroid.beginTransaction();
+						try {
+							deleteOptions();
+							question.delete();
+							ActiveAndroid.setTransactionSuccessful();
+						} finally {
+							ActiveAndroid.endTransaction();
+							back();
+						}
+					}
+				});
 	}
 
-	public void newOption(Option option) {
+	public void newOptionView(View v) {
+		newOptionView(new Option());
+	}
+
+	private void newOptionView(Option option) {
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.option, null);
 		populateOptionView(option, v);
 		((ViewGroup) findViewById(R.id.options_container)).addView(v);
 	}
 
-	public void populateOptionView(Option option, ViewGroup v) {
-		v.setTag(option);
+	private void populateOptionView(Option option, ViewGroup v) {
 		((EditText) v.findViewById(R.id.optionText)).setText(option.text);
-		Button takePictureButton = (Button) v
-				.findViewById(R.id.optionTakePicture);
-		takePictureButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				pictureView = (ImageView) ((ViewGroup) v.getParent())
-						.findViewById(R.id.optionPicture);
-				takePicture();
-			}
-		});
+		new ReceivePicture((ImageView) v.findViewById(R.id.optionPicture))
+				.receive(option.picture);
+		v.findViewById(R.id.optionTakePicture).setOnClickListener(
+				new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						receivePicture = new ReceivePicture(
+								(ImageView) ((ViewGroup) v.getParent())
+										.findViewById(R.id.optionPicture));
+						takePicture();
+					}
+				});
+	}
+
+	private void confirm(int message,
+			android.content.DialogInterface.OnClickListener action) {
+		new AlertDialog.Builder(this).setMessage(getString(message))
+				.setIcon(android.R.drawable.ic_dialog_alert)
+				.setPositiveButton(android.R.string.yes, action)
+				.setNegativeButton(android.R.string.no, null).show();
 	}
 }

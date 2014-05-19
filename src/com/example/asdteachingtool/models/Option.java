@@ -18,4 +18,10 @@ public class Option extends Model {
 	
 	@Column(name = "Question")
 	public Question question;
+
+	public Option() {
+		super();
+		correct = false;
+	}
+	
 }

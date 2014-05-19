@@ -1,5 +1,6 @@
 package com.example.asdteachingtool.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.activeandroid.Model;
@@ -21,6 +22,9 @@ public class Question extends Model {
 	public byte[] picture;
 	
 	public List<Option> options() {
+		if (getId() == null) {
+			return new ArrayList<Option>();
+		}
 		return getMany(Option.class, "Question");
 	}
 	
