@@ -12,7 +12,11 @@
     <string name="edit_question">Edit</string>
     <string name="question_title">Title</string>
     <string name="option_text">Option</string>
+    <string name="option_correct">Correct?</string>
     <string name="options_section">Options</string>
+    <string name="audio_record">Record</string>
+    <string name="audio_stop">Stop</string>
+    <string name="audio_play">Play</string>
     <string name="take_picture">Take picture</string>
     <string name="save_question">Save question</string>
     <string name="delete_question">Remove question</string>

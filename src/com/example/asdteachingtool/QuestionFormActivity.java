@@ -6,7 +6,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,10 +17,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.activeandroid.ActiveAndroid;
+import com.example.asdteachingtool.components.AudioController;
+import com.example.asdteachingtool.factories.AudioControllerFactories;
 import com.example.asdteachingtool.methodobjects.ReceivePicture;
 import com.example.asdteachingtool.models.Option;
 import com.example.asdteachingtool.models.Question;
@@ -35,13 +37,17 @@ public class QuestionFormActivity extends Activity {
 	private EditText questionTitleTextView;
 	private ImageView questionThumbnail;
 	private ViewGroup optionsContainer;
+	
 	private ReceivePicture receivePicture;
+	private AudioControllerFactories audioControllerFactories;
 
 	private Question question;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		audioControllerFactories = new AudioControllerFactories();
 
 		setContentView(R.layout.activity_form_question);
 		questionTitleTextView = (EditText) findViewById(R.id.questionTitle);
@@ -152,6 +158,8 @@ public class QuestionFormActivity extends Activity {
 				option.question = question;
 				option.text = ((EditText) optionView
 						.findViewById(R.id.optionText)).getText().toString();
+				option.correct = ((CheckBox) optionView
+						.findViewById(R.id.optionCorrect)).isChecked();
 				option.picture = (byte[]) optionView.findViewById(
 						R.id.optionPicture).getTag();
 				option.save();
@@ -205,6 +213,8 @@ public class QuestionFormActivity extends Activity {
 
 	private void populateOptionView(Option option, ViewGroup v) {
 		((EditText) v.findViewById(R.id.optionText)).setText(option.text);
+		((CheckBox) v.findViewById(R.id.optionCorrect)).setChecked(option
+				.isCorrect());
 		new ReceivePicture((ImageView) v.findViewById(R.id.optionPicture))
 				.receive(option.picture);
 		v.findViewById(R.id.optionTakePicture).setOnClickListener(
@@ -217,6 +227,17 @@ public class QuestionFormActivity extends Activity {
 						takePicture();
 					}
 				});
+		
+		View record = v.findViewById(R.id.audioRecord);
+		record.setOnClickListener(audioControllerFactories.onRecord());
+		
+		View stop = v.findViewById(R.id.audioStop);
+		stop.setEnabled(false);
+		stop.setOnClickListener(audioControllerFactories.onStop());
+		
+		View play = v.findViewById(R.id.audioPlay);
+		play.setEnabled(false);
+		play.setOnClickListener(audioControllerFactories.onPlay());
 	}
 
 	private void confirm(int message,

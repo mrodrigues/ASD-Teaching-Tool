@@ -8,13 +8,15 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="8" />
 
-    <uses-permission 
-        android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
- 	<uses-feature
- 	    android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
         android:name="com.activeandroid.app.Application"
@@ -57,8 +59,8 @@
         </activity>
         <activity
             android:name="com.example.asdteachingtool.QuestionFormActivity"
-            android:label="@string/title_activity_new_question"
             android:configChanges="orientation"
+            android:label="@string/title_activity_new_question"
             android:parentActivityName="com.example.asdteachingtool.QuestionsListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -68,7 +68,7 @@ public class QuestionActivity extends Activity {
 					button.setTextColor(Color.RED);
 					
 					Option option = Option.load(Option.class, button.getId());
-					if (option.correct) {
+					if (option.isCorrect()) {
 						button.setText("ACERTOU!");
 					} else {
 						Intent intent = new Intent(v.getContext(), QuestionsListActivity.class);

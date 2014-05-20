@@ -13,12 +13,21 @@
         android:background="#FFFFFF"
         android:ems="10"
         android:hint="@string/option_text" />
+    
+    <CheckBox
+        android:id="@+id/optionCorrect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/option_correct" />
+    
+    <include layout="@layout/audio_controller"/>
 
     <ImageView
         android:id="@+id/optionPicture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@android:drawable/picture_frame" />
+    
 
     <Button
         android:id="@+id/optionTakePicture"
