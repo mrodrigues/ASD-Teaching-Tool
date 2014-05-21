@@ -1,15 +1,12 @@
 package com.example.asdteachingtool.components;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaRecorder;
-import android.os.Environment;
 import android.util.Log;
 
 import com.example.asdteachingtool.observers.PlayObserver;
@@ -19,7 +16,6 @@ public class AudioController {
 	private static final String LOG_TAG = "AudioRecorder";
 	private MediaRecorder recorder;
 	private MediaPlayer player;
-	private String file;
 	private List<PlayObserver> playObservers;
 
 	public AudioController() {
@@ -50,18 +46,14 @@ public class AudioController {
 		}
 	}
 
-	public void record() {
+	public void record(String file) {
 		if (isRecording()) {
 			stop();
 		}
 		
 		recorder = new MediaRecorder();
-		File storageDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),
-				"/audio/");
-		storageDir.mkdir();
 
 		try {
-			file = File.createTempFile("audio", ".3gp", storageDir).getPath();
 			recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
 			recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
 			recorder.setOutputFile(file);
@@ -85,10 +77,6 @@ public class AudioController {
 			player.release();
 			player = null;
 		}
-	}
-	
-	public String getOutputFile() {
-		return file;
 	}
 	
 	public Boolean isPlaying() {

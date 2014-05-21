@@ -1,5 +1,7 @@
 package com.example.asdteachingtool;
 
+import java.io.File;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -9,6 +11,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
@@ -22,11 +25,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.activeandroid.ActiveAndroid;
-import com.example.asdteachingtool.components.AudioController;
 import com.example.asdteachingtool.factories.AudioControllerFactories;
 import com.example.asdteachingtool.methodobjects.ReceivePicture;
 import com.example.asdteachingtool.models.Option;
 import com.example.asdteachingtool.models.Question;
+import com.example.asdteachingtool.utils.FileUtils;
 
 public class QuestionFormActivity extends Activity {
 
@@ -37,7 +40,7 @@ public class QuestionFormActivity extends Activity {
 	private EditText questionTitleTextView;
 	private ImageView questionThumbnail;
 	private ViewGroup optionsContainer;
-	
+
 	private ReceivePicture receivePicture;
 	private AudioControllerFactories audioControllerFactories;
 
@@ -46,8 +49,8 @@ public class QuestionFormActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		audioControllerFactories = new AudioControllerFactories();
+
+		audioControllerFactories = new AudioControllerFactories(this);
 
 		setContentView(R.layout.activity_form_question);
 		questionTitleTextView = (EditText) findViewById(R.id.questionTitle);
@@ -162,6 +165,18 @@ public class QuestionFormActivity extends Activity {
 						.findViewById(R.id.optionCorrect)).isChecked();
 				option.picture = (byte[]) optionView.findViewById(
 						R.id.optionPicture).getTag();
+				String path = (String) optionView.findViewById(
+						R.id.audioController).getTag();
+				if (path != null) {
+					System.err.println(path);
+					File tempSoundFile = new File(path);// (String)
+														// optionView.findViewById(R.id.audioController).getTag());
+					File soundFile = new File(
+							Environment.getExternalStorageDirectory(), "audio/"
+									+ tempSoundFile.getName());
+					FileUtils.copyFile(tempSoundFile, soundFile);
+					option.soundPath = soundFile.getPath();
+				}
 				option.save();
 			}
 			question.save();
@@ -227,16 +242,20 @@ public class QuestionFormActivity extends Activity {
 						takePicture();
 					}
 				});
-		
+
+		v.findViewById(R.id.audioController).setTag(option.soundPath);
+
 		View record = v.findViewById(R.id.audioRecord);
 		record.setOnClickListener(audioControllerFactories.onRecord());
-		
+
 		View stop = v.findViewById(R.id.audioStop);
 		stop.setEnabled(false);
 		stop.setOnClickListener(audioControllerFactories.onStop());
-		
+
 		View play = v.findViewById(R.id.audioPlay);
-		play.setEnabled(false);
+		if (option.soundPath == null || option.soundPath.length() == 0) {
+			play.setEnabled(false);
+		}
 		play.setOnClickListener(audioControllerFactories.onPlay());
 	}
 

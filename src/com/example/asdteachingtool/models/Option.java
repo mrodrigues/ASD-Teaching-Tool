@@ -16,6 +16,9 @@ public class Option extends Model {
 	@Column(name = "Picture")
 	public byte[] picture;
 	
+	@Column(name = "SoundPath")
+	public String soundPath;
+	
 	@Column(name = "Question")
 	public Question question;
 

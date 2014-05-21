@@ -1,17 +1,26 @@
 package com.example.asdteachingtool.factories;
 
+import java.io.File;
+import java.io.IOException;
+
+import android.content.Context;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 
 import com.example.asdteachingtool.R;
 import com.example.asdteachingtool.components.AudioController;
 import com.example.asdteachingtool.observers.PlayObserver;
 
 public class AudioControllerFactories {
+	
+	private static final String LOG_TAG = "AudioControllerFactories";
 	private AudioController audioController;
+	private Context context;
 
-	public AudioControllerFactories() {
+	public AudioControllerFactories(Context context) {
+		this.context = context;
 		this.audioController = new AudioController();
 	}
 
@@ -20,7 +29,14 @@ public class AudioControllerFactories {
 
 			@Override
 			public void onClick(View v) {
-				audioController.record();
+				String output = null;
+				try {
+					output = File.createTempFile("audio", ".3gp", context.getCacheDir()).getPath();
+				} catch (IOException e) {
+					Log.e(LOG_TAG, "IOException");
+				}
+				((View) v.getParent()).setTag(output);
+				audioController.record(output);
 				v.setEnabled(false);
 				((ViewGroup) v.getParent()).findViewById(R.id.audioStop)
 						.setEnabled(true);
@@ -39,7 +55,6 @@ public class AudioControllerFactories {
 						R.id.audioRecord).setEnabled(true);
 				((ViewGroup) v.getParent()).findViewById(
 						R.id.audioPlay).setEnabled(true);
-				((View) v.getParent()).setTag(audioController.getOutputFile());
 			}
 		};
 	}
