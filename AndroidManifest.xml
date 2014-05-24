@@ -42,14 +42,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.asdteachingtool.DisplayMessageActivity"
-            android:label="@string/title_activity_display_message"
-            android:parentActivityName="com.example.asdteachingtool.QuestionActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.asdteachingtool.QuestionnaireActivity" />
-        </activity>
-        <activity
             android:name="com.example.asdteachingtool.QuestionsListActivity"
             android:label="@string/title_activity_setup"
             android:parentActivityName="com.example.asdteachingtool.QuestionActivity" >

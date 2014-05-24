@@ -34,7 +34,7 @@ public class ReceivePicture {
 
 	private void setVisibility(Object picture) {
 		if (picture == null) {
-			view.setVisibility(View.INVISIBLE);
+			view.setVisibility(View.GONE);
 		} else {
 			view.setVisibility(View.VISIBLE);
 		}

@@ -23,8 +23,11 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.activeandroid.ActiveAndroid;
+import com.example.asdteachingtool.components.TempFilesManager;
 import com.example.asdteachingtool.factories.AudioControllerFactories;
 import com.example.asdteachingtool.methodobjects.ReceivePicture;
 import com.example.asdteachingtool.models.Option;
@@ -159,18 +162,22 @@ public class QuestionFormActivity extends Activity {
 				Option option = new Option();
 
 				option.question = question;
-				option.text = ((EditText) optionView
-						.findViewById(R.id.optionText)).getText().toString();
 				option.correct = ((CheckBox) optionView
 						.findViewById(R.id.optionCorrect)).isChecked();
-				option.picture = (byte[]) optionView.findViewById(
-						R.id.optionPicture).getTag();
+				EditText optionText = (EditText) optionView
+						.findViewById(R.id.optionText);
+				if (optionText.getVisibility() == View.VISIBLE) {
+					option.text = optionText.getText().toString();
+				}
+				if (optionView.findViewById(R.id.optionPictureContainer)
+						.getVisibility() == View.VISIBLE) {
+					option.picture = (byte[]) optionView.findViewById(
+							R.id.optionPicture).getTag();
+				}
 				String path = (String) optionView.findViewById(
 						R.id.audioController).getTag();
 				if (path != null) {
-					System.err.println(path);
-					File tempSoundFile = new File(path);// (String)
-														// optionView.findViewById(R.id.audioController).getTag());
+					File tempSoundFile = new File(path);
 					File soundFile = new File(
 							Environment.getExternalStorageDirectory(), "audio/"
 									+ tempSoundFile.getName());
@@ -189,7 +196,7 @@ public class QuestionFormActivity extends Activity {
 
 	private void deleteOptions() {
 		for (Option option : question.options()) {
-			option.delete();
+			option.secureDelete();
 		}
 	}
 
@@ -213,6 +220,32 @@ public class QuestionFormActivity extends Activity {
 						}
 					}
 				});
+	}
+	
+	public void deleteOption(View button) {
+		View option = (View) button.getParent();
+		ViewGroup optionsContainer = (ViewGroup) option.getParent();
+		optionsContainer.removeView(option);
+	}
+
+	public void selectOptionType(View button) {
+		selectOptionType((RadioGroup) button.getParent());
+	}
+
+	public void selectOptionType(RadioGroup radioGroup) {
+		ViewGroup optionContainer = (ViewGroup) radioGroup.getParent();
+		View optionText = optionContainer.findViewById(R.id.optionText);
+		View optionPicture = optionContainer
+				.findViewById(R.id.optionPictureContainer);
+		RadioButton typePicture = (RadioButton) radioGroup
+				.findViewById(R.id.optionTypePicture);
+		if (typePicture.isChecked()) {
+			optionText.setVisibility(View.GONE);
+			optionPicture.setVisibility(View.VISIBLE);
+		} else {
+			optionText.setVisibility(View.VISIBLE);
+			optionPicture.setVisibility(View.GONE);
+		}
 	}
 
 	public void newOptionView(View v) {
@@ -243,6 +276,8 @@ public class QuestionFormActivity extends Activity {
 					}
 				});
 
+		selectOptionType((RadioGroup) v.findViewById(R.id.optionTypeContainer));
+
 		v.findViewById(R.id.audioController).setTag(option.soundPath);
 
 		View record = v.findViewById(R.id.audioRecord);
@@ -265,5 +300,11 @@ public class QuestionFormActivity extends Activity {
 				.setIcon(android.R.drawable.ic_dialog_alert)
 				.setPositiveButton(android.R.string.yes, action)
 				.setNegativeButton(android.R.string.no, null).show();
+	}
+	
+	@Override
+	protected void onStop() {
+		TempFilesManager.getInstance().clean();
+		super.onStop();
 	}
 }

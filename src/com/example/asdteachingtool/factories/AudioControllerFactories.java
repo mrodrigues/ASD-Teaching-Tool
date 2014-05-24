@@ -1,21 +1,17 @@
 package com.example.asdteachingtool.factories;
 
-import java.io.File;
-import java.io.IOException;
-
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.example.asdteachingtool.R;
 import com.example.asdteachingtool.components.AudioController;
+import com.example.asdteachingtool.components.TempFilesManager;
 import com.example.asdteachingtool.observers.PlayObserver;
 
 public class AudioControllerFactories {
 	
-	private static final String LOG_TAG = "AudioControllerFactories";
 	private AudioController audioController;
 	private Context context;
 
@@ -29,12 +25,7 @@ public class AudioControllerFactories {
 
 			@Override
 			public void onClick(View v) {
-				String output = null;
-				try {
-					output = File.createTempFile("audio", ".3gp", context.getCacheDir()).getPath();
-				} catch (IOException e) {
-					Log.e(LOG_TAG, "IOException");
-				}
+				String output = TempFilesManager.getInstance().createTempFile("audio", ".3gp", context.getCacheDir());
 				((View) v.getParent()).setTag(output);
 				audioController.record(output);
 				v.setEnabled(false);

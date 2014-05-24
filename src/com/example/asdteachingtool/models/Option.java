@@ -1,11 +1,16 @@
 package com.example.asdteachingtool.models;
 
+import java.io.File;
+
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.util.Log;
 
 @Table(name = "Options")
 public class Option extends Model {
+	
+	private static final String LOG_TAG = "Option";
 	
 	@Column(name = "Correct")
 	public Boolean correct;
@@ -23,6 +28,15 @@ public class Option extends Model {
 	public Question question;
 
 	public Boolean isCorrect() {
-		return Boolean.valueOf(correct);
+		return correct == null ? false : correct;
+	}
+	
+	public void secureDelete() {
+		if (soundPath != null && soundPath.length() > 0) {
+			if (! new File(soundPath).delete()) {
+				Log.e(LOG_TAG, "File not deleted: " + soundPath);
+			}
+		}
+		delete();
 	}
 }
