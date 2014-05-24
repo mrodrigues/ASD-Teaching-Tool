@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <include layout="@layout/option" />
+            <include layout="@layout/option_form" />
         </LinearLayout>
 
         <Button

@@ -55,7 +55,7 @@ public class QuestionFormActivity extends Activity {
 
 		audioControllerFactories = new AudioControllerFactories(this);
 
-		setContentView(R.layout.activity_form_question);
+		setContentView(R.layout.activity_question_form);
 		questionTitleTextView = (EditText) findViewById(R.id.questionTitle);
 		questionThumbnail = (ImageView) findViewById(R.id.questionPicture);
 		optionsContainer = (ViewGroup) findViewById(R.id.options_container);
@@ -254,7 +254,7 @@ public class QuestionFormActivity extends Activity {
 
 	private void newOptionView(Option option) {
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.option, null);
+		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.option_form, null);
 		populateOptionView(option, v);
 		((ViewGroup) findViewById(R.id.options_container)).addView(v);
 	}

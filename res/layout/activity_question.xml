@@ -9,27 +9,19 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".QuestionActivity" >
 
-    <TextView
-        android:id="@+id/questionnaire_view"
+    <ImageView
+        android:id="@+id/questionPicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:text="ph-questionnaire"/>
+        android:src="@android:drawable/picture_frame" />
 
     <LinearLayout
         android:id="@+id/options_container"
-        android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:orientation="vertical" >
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ph-option1"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ph-option2"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -19,42 +19,46 @@ public final class R {
          */
         public static final int activity_horizontal_margin=0x7f040000;
         public static final int activity_vertical_margin=0x7f040001;
+        public static final int play_button=0x7f040002;
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f080017;
-        public static final int audioController=0x7f08000a;
-        public static final int audioPlay=0x7f08000d;
-        public static final int audioRecord=0x7f08000b;
-        public static final int audioStop=0x7f08000c;
-        public static final int deleteOption=0x7f080016;
+        public static final int action_settings=0x7f080019;
+        public static final int audioController=0x7f080009;
+        public static final int audioPlay=0x7f08000c;
+        public static final int audioRecord=0x7f08000a;
+        public static final int audioStop=0x7f08000b;
+        public static final int deleteOption=0x7f080018;
         public static final int deleteQuestion=0x7f080006;
         public static final int newOption=0x7f080005;
-        public static final int optionCorrect=0x7f08000e;
-        public static final int optionPicture=0x7f080014;
-        public static final int optionPictureContainer=0x7f080013;
-        public static final int optionTakePicture=0x7f080015;
-        public static final int optionText=0x7f080012;
-        public static final int optionTypeContainer=0x7f08000f;
-        public static final int optionTypePicture=0x7f080010;
-        public static final int optionTypeText=0x7f080011;
-        public static final int options_container=0x7f080004;
-        public static final int questionForm=0x7f080000;
-        public static final int questionPicture=0x7f080002;
-        public static final int questionTakePicture=0x7f080003;
-        public static final int questionTitle=0x7f080001;
-        public static final int questionnaire_view=0x7f080008;
-        public static final int questionnaires_list=0x7f080009;
+        public static final int optionCorrect=0x7f080010;
+        public static final int optionPicture=0x7f080016;
+        public static final int optionPictureButton=0x7f08000f;
+        public static final int optionPictureContainer=0x7f080015;
+        public static final int optionPlaySound=0x7f08000d;
+        public static final int optionTakePicture=0x7f080017;
+        public static final int optionText=0x7f080014;
+        public static final int optionTextButton=0x7f08000e;
+        public static final int optionTypeContainer=0x7f080011;
+        public static final int optionTypePicture=0x7f080012;
+        public static final int optionTypeText=0x7f080013;
+        public static final int options_container=0x7f080001;
+        public static final int questionForm=0x7f080002;
+        public static final int questionPicture=0x7f080000;
+        public static final int questionTakePicture=0x7f080004;
+        public static final int questionTitle=0x7f080003;
+        public static final int questionnaires_list=0x7f080008;
         public static final int saveQuestion=0x7f080007;
     }
     public static final class layout {
-        public static final int activity_form_question=0x7f030000;
-        public static final int activity_question=0x7f030001;
+        public static final int activity_question=0x7f030000;
+        public static final int activity_question_form=0x7f030001;
         public static final int activity_setup=0x7f030002;
         public static final int audio_controller=0x7f030003;
         public static final int option=0x7f030004;
+        public static final int option_form=0x7f030005;
     }
     public static final class menu {
         public static final int display_message=0x7f070000;

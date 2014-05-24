@@ -31,6 +31,14 @@ public class Option extends Model {
 		return correct == null ? false : correct;
 	}
 	
+	public Boolean hasText() {
+		return text != null && text.length() > 0;
+	}
+	
+	public Boolean hasSound() {
+		return soundPath != null && soundPath.length() > 0;
+	}
+	
 	public void secureDelete() {
 		if (soundPath != null && soundPath.length() > 0) {
 			if (! new File(soundPath).delete()) {
