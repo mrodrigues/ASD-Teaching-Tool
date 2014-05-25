@@ -3,10 +3,7 @@
 
     <string name="app_name">ASD Teaching Tool</string>
     <string name="action_settings">Settings</string>
-    <string name="edit_message">Enter a message</string>
-    <string name="button_send">Send</string>
-    <string name="title_activity_display_message">My Message</string>
-    <string name="title_activity_setup">SetupActivity</string>
+    <string name="title_activity_setup">Edit questions</string>
     <string name="title_activity_new_question">New Question</string>
     <string name="new_question">New question</string>
     <string name="edit_question">Edit</string>
@@ -24,7 +21,15 @@
     <string name="delete_question">Remove question</string>
     <string name="delete_option">Remove option</string>
     <string name="confirm_delete_question">Are you sure you want to remove this question?</string>
-    <string name="new_option">+ Option</string>
+    <string name="confirm_delete_option">Are you sure you want to remove this option?</string>
+    <string name="new_option">New Option</string>
     <string name="pick_intent_picture">Select or take a new Picture</string>
+    <string name="title_activity_start_menu">ASD Teaching Tool</string>
+    <string name="start_questions">Start</string>
+    <string name="edit_questions">Edit</string>
+    <string name="correct_answer">Correct!</string>
+    <string name="wrong_answer">Wrong...</string>
+    <string name="completed_questions">Completed all questions!</string>
+    <string name="error_opening_question">There was an error opening the question.</string>
 
 </resources>

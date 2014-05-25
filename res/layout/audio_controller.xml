@@ -3,24 +3,25 @@
     android:id="@+id/audioController"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center"
     android:orientation="horizontal" >
 
-    <Button
+    <ImageButton
         android:id="@+id/audioRecord"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/audio_record" />
+        android:layout_width="@dimen/small_button"
+        android:layout_height="@dimen/small_button"
+        android:src="@android:drawable/ic_btn_speak_now" />
 
-    <Button
+    <ImageButton
         android:id="@+id/audioStop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/audio_stop" />
+        android:layout_width="@dimen/small_button"
+        android:layout_height="@dimen/small_button"
+        android:src="@android:drawable/ic_media_pause" />
 
-    <Button
+    <ImageButton
         android:id="@+id/audioPlay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/audio_play" />
+        android:layout_width="@dimen/small_button"
+        android:layout_height="@dimen/small_button"
+        android:src="@android:drawable/ic_media_play" />
 
 </LinearLayout>

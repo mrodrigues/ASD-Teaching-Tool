@@ -2,12 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:layout_marginBottom="@dimen/option_margin"
+    android:paddingBottom="@dimen/option_margin"
     android:orientation="horizontal" >
 
     <ImageButton
         android:id="@+id/optionPlaySound"
-        android:layout_width="@dimen/play_button"
-        android:layout_height="@dimen/play_button"
+        android:layout_width="@dimen/small_button"
+        android:layout_height="@dimen/small_button"
         android:onClick="playSound"
         android:src="@android:drawable/ic_media_play" />
 
@@ -19,8 +23,9 @@
 
     <ImageButton
         android:id="@+id/optionPictureButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/option_image"
+        android:layout_height="@dimen/option_image"
+        android:scaleType="centerInside"
         android:onClick="selectOption" />
 
 </LinearLayout>

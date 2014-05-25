@@ -3,6 +3,11 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="play_button">40dp</dimen>
+    <dimen name="small_button">50dp</dimen>
+    <dimen name="medium_button">60dp</dimen>
+    <dimen name="option_image">80dp</dimen>
+    <dimen name="option_margin">10dp</dimen>
+    <dimen name="option_form_margin">10dp</dimen>
+    <dimen name="start_button">100dp</dimen>
 
 </resources>

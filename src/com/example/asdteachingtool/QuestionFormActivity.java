@@ -281,10 +281,24 @@ public class QuestionFormActivity extends Activity {
 				});
 	}
 
-	public void deleteOption(View button) {
-		View option = (View) button.getParent();
-		ViewGroup optionsContainer = (ViewGroup) option.getParent();
-		optionsContainer.removeView(option);
+	public void deleteOption(final View button) {
+		confirm(R.string.confirm_delete_option,
+				new android.content.DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						ActiveAndroid.beginTransaction();
+						try {
+							View option = (View) button.getParent();
+							ViewGroup optionsContainer = (ViewGroup) option
+									.getParent();
+							optionsContainer.removeView(option);
+							ActiveAndroid.setTransactionSuccessful();
+						} finally {
+							ActiveAndroid.endTransaction();
+							back();
+						}
+					}
+				});
 	}
 
 	public void selectOptionType(View button) {
@@ -341,7 +355,12 @@ public class QuestionFormActivity extends Activity {
 
 		selectOptionType((RadioGroup) v.findViewById(R.id.optionTypeContainer));
 
-		v.findViewById(R.id.audioController).setTag(option.soundPath);
+		if (option.hasSound()) {
+			String sound = TempFilesManager.getInstance().createTempFile(
+					"audio", ".3pg", getExternalCacheDir());
+			FileUtils.copyFile(new File(option.soundPath), new File(sound));
+			v.findViewById(R.id.audioController).setTag(sound);
+		}
 
 		View record = v.findViewById(R.id.audioRecord);
 		record.setOnClickListener(audioControllerFactories.onRecord());

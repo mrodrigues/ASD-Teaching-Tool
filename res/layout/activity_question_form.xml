@@ -25,14 +25,16 @@
             android:id="@+id/questionPicture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:src="@android:drawable/picture_frame" />
 
-        <Button
+        <ImageButton
             android:id="@+id/questionTakePicture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/medium_button"
+            android:layout_height="@dimen/medium_button"
+            android:layout_gravity="center"
             android:onClick="questionTakePicture"
-            android:text="@string/take_picture" />
+            android:src="@android:drawable/ic_menu_camera" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -47,28 +49,39 @@
             android:orientation="vertical" >
 
             <include layout="@layout/option_form" />
+
+            <include layout="@layout/option_form" />
         </LinearLayout>
 
         <Button
             android:id="@+id/newOption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/ic_input_add"
             android:onClick="newOptionView"
             android:text="@string/new_option" />
 
-        <Button
-            android:id="@+id/deleteQuestion"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:onClick="deleteQuestion"
-            android:text="@string/delete_question" />
+            android:orientation="horizontal" >
 
-        <Button
-            android:id="@+id/saveQuestion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="saveQuestion"
-            android:text="@string/save_question" />
+            <ImageButton
+                android:id="@+id/deleteQuestion"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:onClick="deleteQuestion"
+                android:src="@android:drawable/ic_menu_delete" />
+
+            <ImageButton
+                android:id="@+id/saveQuestion"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:onClick="saveQuestion"
+                android:src="@android:drawable/ic_menu_save" />
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>

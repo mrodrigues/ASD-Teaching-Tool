@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.activeandroid.util.Log;
 import com.example.asdteachingtool.components.AudioController;
 import com.example.asdteachingtool.factories.BitmapFactory;
 import com.example.asdteachingtool.models.Option;
@@ -20,9 +22,14 @@ import com.example.asdteachingtool.models.Question;
 
 public class QuestionActivity extends Activity {
 
-	public final static String EXTRA_QUESTION_ID = "com.example.asdteachingtool.QUESTION_ID";
+	public final static String EXTRA_QUESTION_ID_INDEX = "com.example.asdteachingtool.QUESTION_ID_INDEX";
+	public final static String EXTRA_QUESTIONS_IDS = "com.example.asdteachingtool.QUESTIONS_IDS";
+	
+	private final static String LOG_TAG = "QuestionAcivity";
 
 	private Question question;
+	private long[] questionsIds;
+	private int questionIdIndex;
 	private AudioController audioController;
 
 	@Override
@@ -30,33 +37,29 @@ public class QuestionActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		audioController = new AudioController();
 		setContentView(R.layout.activity_question);
-		// ---- TEST SAMPLE ------
-		if (Question.all().size() == 0) {
-			question = new Question();
-			question.title = "Feliz";
-			question.save();
-
-			Option option1 = new Option();
-			option1.question = question;
-			option1.text = "Rosto sorridente";
-			option1.correct = true;
-			option1.save();
-
-			Option option2 = new Option();
-			option2.question = question;
-			option2.text = "Rosto triste";
-			option2.correct = false;
-			option2.save();
-		} else {
-			question = Question.all().get(0);
+		
+		questionIdIndex = getIntent().getIntExtra(EXTRA_QUESTION_ID_INDEX, -347);
+		questionsIds = getIntent().getLongArrayExtra(EXTRA_QUESTIONS_IDS);
+		System.err.println("========================");
+		System.err.println(getIntent());
+		System.err.println(getIntent().getExtras());
+		System.err.println(getIntent().getIntExtra(EXTRA_QUESTION_ID_INDEX, -347));
+		System.err.println(getIntent().getExtras().getInt(EXTRA_QUESTION_ID_INDEX));
+		System.err.println(questionIdIndex);
+		System.err.println(questionsIds);
+		System.err.println("========================");
+		if (questionIdIndex < 0) {
+			Log.e(LOG_TAG, "Missing question id.");
+			Toast.makeText(this, getString(R.string.error_opening_question), Toast.LENGTH_SHORT).show();
+			NavUtils.navigateUpFromSameTask(this);
 		}
-		// -----------------------
+		
+		question = Question.load(Question.class, questionsIds[questionIdIndex]);
 
 		updateView();
 	}
 
 	private void updateView() {
-		setTitle(question.title);
 		ImageView questionPicture = (ImageView) findViewById(R.id.questionPicture);
 		questionPicture.setImageBitmap(BitmapFactory
 				.decodeByteArray(question.picture));
@@ -106,12 +109,24 @@ public class QuestionActivity extends Activity {
 		Option option = optionFromView(v);
 		String message = null;
 		if (option.isCorrect()) {
-			message = "ACERTOU!!!";
-			Intent intent = new Intent(v.getContext(),
-					QuestionsListActivity.class);
-			v.getContext().startActivity(intent);
+			int nextQuestionIdIndex = questionIdIndex + 1;
+			System.err.println("========================");
+			System.err.println(nextQuestionIdIndex);
+			System.err.println(questionsIds.length);
+			System.err.println("========================");
+			if (nextQuestionIdIndex >= questionsIds.length) {
+				message = getString(R.string.completed_questions);
+				NavUtils.navigateUpFromSameTask(this);
+			} else {
+				message = getString(R.string.correct_answer);
+				Intent intent = new Intent(v.getContext(),
+						QuestionActivity.class);
+				intent.putExtra(EXTRA_QUESTIONS_IDS, questionsIds);
+				intent.putExtra(EXTRA_QUESTION_ID_INDEX, nextQuestionIdIndex);
+				startActivity(intent);
+			}
 		} else {
-			message = "Errou...";
+			message = getString(R.string.wrong_answer);
 		}
 		Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 	}
