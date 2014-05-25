@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -36,18 +38,13 @@ public class QuestionActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		audioController = new AudioController();
+		
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		
 		setContentView(R.layout.activity_question);
 		
 		questionIdIndex = getIntent().getIntExtra(EXTRA_QUESTION_ID_INDEX, -347);
-		questionsIds = getIntent().getLongArrayExtra(EXTRA_QUESTIONS_IDS);
-		System.err.println("========================");
-		System.err.println(getIntent());
-		System.err.println(getIntent().getExtras());
-		System.err.println(getIntent().getIntExtra(EXTRA_QUESTION_ID_INDEX, -347));
-		System.err.println(getIntent().getExtras().getInt(EXTRA_QUESTION_ID_INDEX));
-		System.err.println(questionIdIndex);
-		System.err.println(questionsIds);
-		System.err.println("========================");
 		if (questionIdIndex < 0) {
 			Log.e(LOG_TAG, "Missing question id.");
 			Toast.makeText(this, getString(R.string.error_opening_question), Toast.LENGTH_SHORT).show();
@@ -110,10 +107,6 @@ public class QuestionActivity extends Activity {
 		String message = null;
 		if (option.isCorrect()) {
 			int nextQuestionIdIndex = questionIdIndex + 1;
-			System.err.println("========================");
-			System.err.println(nextQuestionIdIndex);
-			System.err.println(questionsIds.length);
-			System.err.println("========================");
 			if (nextQuestionIdIndex >= questionsIds.length) {
 				message = getString(R.string.completed_questions);
 				NavUtils.navigateUpFromSameTask(this);

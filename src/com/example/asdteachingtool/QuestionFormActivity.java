@@ -212,6 +212,7 @@ public class QuestionFormActivity extends Activity {
 		try {
 			question.title = questionTitleTextView.getText().toString();
 			question.picture = (byte[]) questionThumbnail.getTag();
+			question.save();
 
 			deleteOptions();
 
@@ -245,7 +246,6 @@ public class QuestionFormActivity extends Activity {
 				}
 				option.save();
 			}
-			question.save();
 
 			ActiveAndroid.setTransactionSuccessful();
 		} finally {
