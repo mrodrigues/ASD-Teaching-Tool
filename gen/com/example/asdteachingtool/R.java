@@ -103,6 +103,7 @@ public final class R {
         public static final int option_type_picture=0x7f040014;
         public static final int option_type_text=0x7f040013;
         public static final int options_section=0x7f040012;
+        public static final int pick_intent_picture=0x7f04001e;
         public static final int preparing_card=0x7f040003;
         public static final int question_title=0x7f04000f;
         public static final int save=0x7f040001;

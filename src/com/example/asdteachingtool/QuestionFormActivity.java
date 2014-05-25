@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
@@ -41,7 +42,7 @@ import eu.janmuller.android.simplecropimage.CropImage;
 public class QuestionFormActivity extends Activity {
 
 	private static final String LOG_TAG = "QuestionFormActivity";
-	
+
 	public static final String EXTRA_QUESTION_ID = "com.example.asdteachingtool.QUESTION_ID";
 
 	private static final int REQUEST_CODE_TAKE_PICTURE = 0;
@@ -138,48 +139,62 @@ public class QuestionFormActivity extends Activity {
 				".jpg", getExternalCacheDir());
 		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		Uri path = Uri.fromFile(new File(targetFile));
-		System.err.println("=============");
-		System.err.println("targetFile: " + targetFile);
-		System.err.println("Uri: " + path);
-		System.err.println("=============");
 		takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, path);
-		
-		startActivityForResult(takePictureIntent, REQUEST_CODE_TAKE_PICTURE);
+
+		Intent pickIntent = new Intent();
+		pickIntent.setType("image/*");
+		pickIntent.setAction(Intent.ACTION_GET_CONTENT);
+
+		String pickTitle = getString(R.string.pick_intent_picture);
+		Intent chooserIntent = Intent.createChooser(pickIntent, pickTitle);
+		chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,
+				new Intent[] { takePictureIntent });
+
+		startActivityForResult(chooserIntent, REQUEST_CODE_TAKE_PICTURE);
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		System.err.println("===============");
-		System.err.println("onActivityResult");
-		System.err.println("resultCode: " + resultCode);
-		System.err.println("requestCode: " + requestCode);
-		System.err.println("===============");
 		switch (requestCode) {
 		case REQUEST_CODE_TAKE_PICTURE:
 			if (resultCode == RESULT_OK) {
+				Boolean isCamera = null;
+				if (data == null) {
+					isCamera = true;
+				} else {
+					final String action = data.getAction();
+					if (action == null) {
+						isCamera = false;
+					} else {
+						isCamera = action
+								.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+					}
+				}
+				if (!isCamera) {
+					if (data == null) {
+						targetFile = null;
+					} else {
+						File originalFile = new File(FileUtils.getPathFor(this,
+								data.getData()));
+						FileUtils.copyFile(originalFile, new File(targetFile));
+					}
+
+				}
 				Intent intent = new Intent(this, CropImage.class);
 				intent.putExtra(CropImage.IMAGE_PATH, targetFile);
 				targetFile = null;
 				intent.putExtra(CropImage.SCALE, true);
 				intent.putExtra(CropImage.ASPECT_X, 1);
 				intent.putExtra(CropImage.ASPECT_Y, 1);
-				System.err.println("===============");
-				System.err.println("STARTING CROP");
-				System.err.println("===============");
 				startActivityForResult(intent, REQUEST_CODE_CROP_IMAGE);
-			} else {
-				System.err.println("WE FUCKED UP");
 			}
 			break;
 		case REQUEST_CODE_CROP_IMAGE:
-			System.err.println("===============");
-			System.err.println("Crop finished");
-			System.err.println("===============");
 			String path = data.getStringExtra(CropImage.IMAGE_PATH);
-            if (path == null) {
-            	Log.e(LOG_TAG, "Crop image is null");
-                return;
-            }
+			if (path == null) {
+				Log.e(LOG_TAG, "Crop image is null");
+				return;
+			}
 
 			receivePicture.receive(BitmapFactory.decodeFile(path));
 			receivePicture = null;

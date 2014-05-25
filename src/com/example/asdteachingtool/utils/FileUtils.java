@@ -12,95 +12,116 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.NonReadableChannelException;
 import java.nio.channels.NonWritableChannelException;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 
 public class FileUtils {
-	
+
 	private static final String LOG_TAG = "FileUtils";
-	
-	public static boolean copyFile(File src, File dst) {
-	    boolean returnValue = true;
 
-	   FileChannel inChannel = null, outChannel = null;
+	/**
+	 * Copy source file to target.
+	 * 
+	 * @param source
+	 * @param target
+	 * @return Returns true if the operation was successful.
+	 */
+	public static boolean copyFile(File source, File target) {
+		boolean returnValue = true;
 
-	    try {
+		FileChannel inChannel = null, outChannel = null;
 
-	        inChannel = new FileInputStream(src).getChannel();
-	        outChannel = new FileOutputStream(dst).getChannel();
+		try {
 
-	   } catch (FileNotFoundException fnfe) {
+			inChannel = new FileInputStream(source).getChannel();
+			outChannel = new FileOutputStream(target).getChannel();
 
-	        Log.d(LOG_TAG, "inChannel/outChannel FileNotFoundException");
-	        fnfe.printStackTrace();
-	        return false;
-	   }
+		} catch (FileNotFoundException fnfe) {
 
-	   try {
-	       inChannel.transferTo(0, inChannel.size(), outChannel);
+			Log.d(LOG_TAG, "inChannel/outChannel FileNotFoundException");
+			fnfe.printStackTrace();
+			return false;
+		}
 
-	   } catch (IllegalArgumentException iae) {
+		try {
+			inChannel.transferTo(0, inChannel.size(), outChannel);
 
-	         Log.d(LOG_TAG, "TransferTo IllegalArgumentException");
-	         iae.printStackTrace();
-	         returnValue = false;
+		} catch (IllegalArgumentException iae) {
 
-	   } catch (NonReadableChannelException nrce) {
+			Log.d(LOG_TAG, "TransferTo IllegalArgumentException");
+			iae.printStackTrace();
+			returnValue = false;
 
-	         Log.d(LOG_TAG, "TransferTo NonReadableChannelException");
-	         nrce.printStackTrace();
-	         returnValue = false;
+		} catch (NonReadableChannelException nrce) {
 
-	   } catch (NonWritableChannelException nwce) {
+			Log.d(LOG_TAG, "TransferTo NonReadableChannelException");
+			nrce.printStackTrace();
+			returnValue = false;
 
-	        Log.d(LOG_TAG, "TransferTo NonWritableChannelException");
-	        nwce.printStackTrace();
-	        returnValue = false;
+		} catch (NonWritableChannelException nwce) {
 
-	   } catch (ClosedByInterruptException cie) {
+			Log.d(LOG_TAG, "TransferTo NonWritableChannelException");
+			nwce.printStackTrace();
+			returnValue = false;
 
-	        Log.d(LOG_TAG, "TransferTo ClosedByInterruptException");
-	        cie.printStackTrace();
-	        returnValue = false;
+		} catch (ClosedByInterruptException cie) {
 
-	   } catch (AsynchronousCloseException ace) {
+			Log.d(LOG_TAG, "TransferTo ClosedByInterruptException");
+			cie.printStackTrace();
+			returnValue = false;
 
-	        Log.d(LOG_TAG, "TransferTo AsynchronousCloseException");
-	        ace.printStackTrace();
-	        returnValue = false;
+		} catch (AsynchronousCloseException ace) {
 
-	   } catch (ClosedChannelException cce) {
+			Log.d(LOG_TAG, "TransferTo AsynchronousCloseException");
+			ace.printStackTrace();
+			returnValue = false;
 
-	        Log.d(LOG_TAG, "TransferTo ClosedChannelException");
-	        cce.printStackTrace(); 
-	        returnValue = false;
+		} catch (ClosedChannelException cce) {
 
-	    } catch (IOException ioe) {
+			Log.d(LOG_TAG, "TransferTo ClosedChannelException");
+			cce.printStackTrace();
+			returnValue = false;
 
-	        Log.d(LOG_TAG, "TransferTo IOException");
-	        ioe.printStackTrace();
-	        returnValue = false;
+		} catch (IOException ioe) {
 
+			Log.d(LOG_TAG, "TransferTo IOException");
+			ioe.printStackTrace();
+			returnValue = false;
 
-	    } finally {
+		} finally {
 
-	         if (inChannel != null)
+			if (inChannel != null)
 
-	            try {
+				try {
 
-	               inChannel.close();
-	           } catch (IOException e) {
-	               e.printStackTrace();
-	           }
+					inChannel.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 
-	        if (outChannel != null)
-	            try {
-	                outChannel.close();
-	           } catch (IOException e) {
-	                e.printStackTrace();
-	           }
+			if (outChannel != null)
+				try {
+					outChannel.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 
-	        }
+		}
 
-	       return returnValue;
-	    }
+		return returnValue;
+	}
+
+	public static String getPathFor(Context context, Uri uri) {
+		String[] filePathColumn = { MediaStore.Images.Media.DATA };
+		Cursor cursor = context.getContentResolver().query(uri, filePathColumn,
+				null, null, null);
+		cursor.moveToFirst();
+		int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+		String path = cursor.getString(columnIndex);
+		cursor.close();
+		return path;
+	}
 }

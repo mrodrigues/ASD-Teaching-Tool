@@ -25,5 +25,6 @@
     <string name="delete_option">Remove option</string>
     <string name="confirm_delete_question">Are you sure you want to remove this question?</string>
     <string name="new_option">+ Option</string>
+    <string name="pick_intent_picture">Select or take a new Picture</string>
 
 </resources>
