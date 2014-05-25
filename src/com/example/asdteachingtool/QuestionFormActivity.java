@@ -8,7 +8,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -27,6 +28,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.activeandroid.ActiveAndroid;
+import com.activeandroid.util.Log;
 import com.example.asdteachingtool.components.TempFilesManager;
 import com.example.asdteachingtool.factories.AudioControllerFactories;
 import com.example.asdteachingtool.methodobjects.ReceivePicture;
@@ -34,11 +36,16 @@ import com.example.asdteachingtool.models.Option;
 import com.example.asdteachingtool.models.Question;
 import com.example.asdteachingtool.utils.FileUtils;
 
+import eu.janmuller.android.simplecropimage.CropImage;
+
 public class QuestionFormActivity extends Activity {
 
+	private static final String LOG_TAG = "QuestionFormActivity";
+	
 	public static final String EXTRA_QUESTION_ID = "com.example.asdteachingtool.QUESTION_ID";
 
-	private final int TAKE_PICTURE = 0;
+	private static final int REQUEST_CODE_TAKE_PICTURE = 0;
+	private static final int REQUEST_CODE_CROP_IMAGE = 1;
 
 	private EditText questionTitleTextView;
 	private ImageView questionThumbnail;
@@ -48,6 +55,7 @@ public class QuestionFormActivity extends Activity {
 	private AudioControllerFactories audioControllerFactories;
 
 	private Question question;
+	private String targetFile;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -126,19 +134,55 @@ public class QuestionFormActivity extends Activity {
 	}
 
 	public void takePicture() {
+		targetFile = TempFilesManager.getInstance().createTempFile("picture",
+				".jpg", getExternalCacheDir());
 		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		startActivityForResult(takePictureIntent, TAKE_PICTURE);
+		Uri path = Uri.fromFile(new File(targetFile));
+		System.err.println("=============");
+		System.err.println("targetFile: " + targetFile);
+		System.err.println("Uri: " + path);
+		System.err.println("=============");
+		takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, path);
+		
+		startActivityForResult(takePictureIntent, REQUEST_CODE_TAKE_PICTURE);
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		System.err.println("===============");
+		System.err.println("onActivityResult");
+		System.err.println("resultCode: " + resultCode);
+		System.err.println("requestCode: " + requestCode);
+		System.err.println("===============");
 		switch (requestCode) {
-		case TAKE_PICTURE:
+		case REQUEST_CODE_TAKE_PICTURE:
 			if (resultCode == RESULT_OK) {
-				Bundle extras = data.getExtras();
-				receivePicture.receive((Bitmap) extras.get("data"));
-				receivePicture = null;
+				Intent intent = new Intent(this, CropImage.class);
+				intent.putExtra(CropImage.IMAGE_PATH, targetFile);
+				targetFile = null;
+				intent.putExtra(CropImage.SCALE, true);
+				intent.putExtra(CropImage.ASPECT_X, 1);
+				intent.putExtra(CropImage.ASPECT_Y, 1);
+				System.err.println("===============");
+				System.err.println("STARTING CROP");
+				System.err.println("===============");
+				startActivityForResult(intent, REQUEST_CODE_CROP_IMAGE);
+			} else {
+				System.err.println("WE FUCKED UP");
 			}
+			break;
+		case REQUEST_CODE_CROP_IMAGE:
+			System.err.println("===============");
+			System.err.println("Crop finished");
+			System.err.println("===============");
+			String path = data.getStringExtra(CropImage.IMAGE_PATH);
+            if (path == null) {
+            	Log.e(LOG_TAG, "Crop image is null");
+                return;
+            }
+
+			receivePicture.receive(BitmapFactory.decodeFile(path));
+			receivePicture = null;
 			break;
 		}
 	}
@@ -221,7 +265,7 @@ public class QuestionFormActivity extends Activity {
 					}
 				});
 	}
-	
+
 	public void deleteOption(View button) {
 		View option = (View) button.getParent();
 		ViewGroup optionsContainer = (ViewGroup) option.getParent();
@@ -276,6 +320,10 @@ public class QuestionFormActivity extends Activity {
 					}
 				});
 
+		int optionType = option.hasText() ? R.id.optionTypeText
+				: R.id.optionTypePicture;
+		((RadioButton) v.findViewById(optionType)).setChecked(true);
+
 		selectOptionType((RadioGroup) v.findViewById(R.id.optionTypeContainer));
 
 		v.findViewById(R.id.audioController).setTag(option.soundPath);
@@ -301,7 +349,7 @@ public class QuestionFormActivity extends Activity {
 				.setPositiveButton(android.R.string.yes, action)
 				.setNegativeButton(android.R.string.no, null).show();
 	}
-	
+
 	@Override
 	protected void onStop() {
 		TempFilesManager.getInstance().clean();
