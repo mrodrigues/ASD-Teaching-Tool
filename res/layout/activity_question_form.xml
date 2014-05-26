@@ -23,15 +23,15 @@
 
         <ImageView
             android:id="@+id/questionPicture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/question_image"
+            android:layout_height="@dimen/question_image"
             android:layout_gravity="center"
             android:src="@android:drawable/picture_frame" />
 
         <ImageButton
             android:id="@+id/questionTakePicture"
-            android:layout_width="@dimen/medium_button"
-            android:layout_height="@dimen/medium_button"
+            android:layout_width="@dimen/camera_button_width"
+            android:layout_height="@dimen/small_button"
             android:layout_gravity="center"
             android:onClick="questionTakePicture"
             android:src="@android:drawable/ic_menu_camera" />

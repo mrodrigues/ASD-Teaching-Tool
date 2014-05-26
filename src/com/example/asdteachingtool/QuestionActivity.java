@@ -44,7 +44,8 @@ public class QuestionActivity extends Activity {
 		
 		setContentView(R.layout.activity_question);
 		
-		questionIdIndex = getIntent().getIntExtra(EXTRA_QUESTION_ID_INDEX, -347);
+		questionIdIndex = getIntent().getIntExtra(EXTRA_QUESTION_ID_INDEX, -1);
+		questionsIds = getIntent().getLongArrayExtra(EXTRA_QUESTIONS_IDS);
 		if (questionIdIndex < 0) {
 			Log.e(LOG_TAG, "Missing question id.");
 			Toast.makeText(this, getString(R.string.error_opening_question), Toast.LENGTH_SHORT).show();

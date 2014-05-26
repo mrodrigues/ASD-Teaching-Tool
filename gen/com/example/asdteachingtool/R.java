@@ -19,12 +19,13 @@ public final class R {
          */
         public static final int activity_horizontal_margin=0x7f060000;
         public static final int activity_vertical_margin=0x7f060001;
-        public static final int medium_button=0x7f060003;
+        public static final int camera_button_width=0x7f060003;
         public static final int option_form_margin=0x7f060006;
         public static final int option_image=0x7f060004;
         public static final int option_margin=0x7f060005;
+        public static final int question_image=0x7f060007;
         public static final int small_button=0x7f060002;
-        public static final int start_button=0x7f060007;
+        public static final int start_button=0x7f060008;
     }
     public static final class drawable {
         public static final int btn_crop_operator=0x7f020000;
