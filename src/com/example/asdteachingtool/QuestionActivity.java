@@ -3,10 +3,13 @@ package com.example.asdteachingtool;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.GestureDetectorCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -19,6 +22,7 @@ import android.widget.Toast;
 import com.activeandroid.util.Log;
 import com.example.asdteachingtool.components.AudioController;
 import com.example.asdteachingtool.factories.BitmapFactory;
+import com.example.asdteachingtool.listeners.LaunchThermometer;
 import com.example.asdteachingtool.models.Option;
 import com.example.asdteachingtool.models.Question;
 
@@ -26,32 +30,37 @@ public class QuestionActivity extends Activity {
 
 	public final static String EXTRA_QUESTION_ID_INDEX = "com.example.asdteachingtool.QUESTION_ID_INDEX";
 	public final static String EXTRA_QUESTIONS_IDS = "com.example.asdteachingtool.QUESTIONS_IDS";
-	
+
 	private final static String LOG_TAG = "QuestionAcivity";
 
 	private Question question;
 	private long[] questionsIds;
 	private int questionIdIndex;
 	private AudioController audioController;
+	private GestureDetectorCompat gestureDetector;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		gestureDetector = new GestureDetectorCompat(this,
+				new LaunchThermometer(this));
 		audioController = new AudioController();
-		
+
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 		setContentView(R.layout.activity_question);
-		
+
 		questionIdIndex = getIntent().getIntExtra(EXTRA_QUESTION_ID_INDEX, -1);
 		questionsIds = getIntent().getLongArrayExtra(EXTRA_QUESTIONS_IDS);
 		if (questionIdIndex < 0) {
 			Log.e(LOG_TAG, "Missing question id.");
-			Toast.makeText(this, getString(R.string.error_opening_question), Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, getString(R.string.error_opening_question),
+					Toast.LENGTH_SHORT).show();
 			NavUtils.navigateUpFromSameTask(this);
 		}
-		
+
 		question = Question.load(Question.class, questionsIds[questionIdIndex]);
 
 		updateView();
@@ -123,6 +132,18 @@ public class QuestionActivity extends Activity {
 			message = getString(R.string.wrong_answer);
 		}
 		Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		gestureDetector.onTouchEvent(event);
+		return super.onTouchEvent(event);
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		// ignore orientation/keyboard change
+		super.onConfigurationChanged(newConfig);
 	}
 
 	public void playSound(View v) {

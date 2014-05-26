@@ -20,23 +20,30 @@ public final class R {
         public static final int activity_horizontal_margin=0x7f060000;
         public static final int activity_vertical_margin=0x7f060001;
         public static final int camera_button_width=0x7f060003;
+        public static final int expression_padding=0x7f060009;
         public static final int option_form_margin=0x7f060006;
         public static final int option_image=0x7f060004;
         public static final int option_margin=0x7f060005;
         public static final int question_image=0x7f060007;
         public static final int small_button=0x7f060002;
         public static final int start_button=0x7f060008;
+        public static final int thermometer_padding=0x7f06000a;
     }
     public static final class drawable {
-        public static final int btn_crop_operator=0x7f020000;
-        public static final int btn_crop_pressed=0x7f020001;
-        public static final int camera_crop_height=0x7f020002;
-        public static final int camera_crop_width=0x7f020003;
-        public static final int ic_launcher=0x7f020004;
-        public static final int ic_rotate_left=0x7f020005;
-        public static final int ic_rotate_right=0x7f020006;
-        public static final int indicator_autocrop=0x7f020007;
-        public static final int selector_crop_button=0x7f020008;
+        public static final int angry=0x7f020000;
+        public static final int bored=0x7f020001;
+        public static final int btn_crop_operator=0x7f020002;
+        public static final int btn_crop_pressed=0x7f020003;
+        public static final int camera_crop_height=0x7f020004;
+        public static final int camera_crop_width=0x7f020005;
+        public static final int excited=0x7f020006;
+        public static final int happy=0x7f020007;
+        public static final int ic_launcher=0x7f020008;
+        public static final int ic_rotate_left=0x7f020009;
+        public static final int ic_rotate_right=0x7f02000a;
+        public static final int indicator_autocrop=0x7f02000b;
+        public static final int sad=0x7f02000c;
+        public static final int selector_crop_button=0x7f02000d;
     }
     public static final class id {
         public static final int action_settings=0x7f08001f;
@@ -77,11 +84,12 @@ public final class R {
         public static final int activity_question_form=0x7f030001;
         public static final int activity_setup=0x7f030002;
         public static final int activity_start_menu=0x7f030003;
-        public static final int audio_controller=0x7f030004;
-        public static final int cropimage=0x7f030005;
-        public static final int main=0x7f030006;
-        public static final int option=0x7f030007;
-        public static final int option_form=0x7f030008;
+        public static final int activity_thermometer=0x7f030004;
+        public static final int audio_controller=0x7f030005;
+        public static final int cropimage=0x7f030006;
+        public static final int main=0x7f030007;
+        public static final int option=0x7f030008;
+        public static final int option_form=0x7f030009;
     }
     public static final class menu {
         public static final int display_message=0x7f070000;
@@ -89,6 +97,7 @@ public final class R {
         public static final int questionnaire=0x7f070002;
         public static final int setup=0x7f070003;
         public static final int start_menu=0x7f070004;
+        public static final int thermometer=0x7f070005;
     }
     public static final class string {
         public static final int action_settings=0x7f040007;
@@ -126,6 +135,7 @@ public final class R {
         public static final int title_activity_new_question=0x7f040009;
         public static final int title_activity_setup=0x7f040008;
         public static final int title_activity_start_menu=0x7f04001d;
+        public static final int title_activity_thermometer=0x7f040024;
         public static final int wrong_answer=0x7f040021;
     }
     public static final class style {

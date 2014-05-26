@@ -31,5 +31,6 @@
     <string name="wrong_answer">Wrong...</string>
     <string name="completed_questions">Completed all questions!</string>
     <string name="error_opening_question">There was an error opening the question.</string>
+    <string name="title_activity_thermometer">ThermometerActivity</string>
 
 </resources>

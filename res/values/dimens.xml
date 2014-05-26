@@ -10,5 +10,7 @@
     <dimen name="option_form_margin">10dp</dimen>
     <dimen name="question_image">200dp</dimen>
     <dimen name="start_button">100dp</dimen>
+    <dimen name="expression_padding">4dp</dimen>
+    <dimen name="thermometer_padding">20dp</dimen>
 
 </resources>
