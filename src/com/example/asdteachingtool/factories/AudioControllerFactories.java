@@ -17,7 +17,7 @@ public class AudioControllerFactories {
 
 	public AudioControllerFactories(Context context) {
 		this.context = context;
-		this.audioController = new AudioController();
+		this.audioController = new AudioController(context);
 	}
 
 	public OnClickListener onRecord() {

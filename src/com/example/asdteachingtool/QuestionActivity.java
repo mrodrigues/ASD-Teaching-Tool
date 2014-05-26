@@ -1,5 +1,7 @@
 package com.example.asdteachingtool;
 
+import java.util.Locale;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -44,7 +46,7 @@ public class QuestionActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		gestureDetector = new GestureDetectorCompat(this,
 				new LaunchThermometer(this));
-		audioController = new AudioController();
+		audioController = new AudioController(this);
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -116,6 +118,7 @@ public class QuestionActivity extends Activity {
 		Option option = optionFromView(v);
 		String message = null;
 		if (option.isCorrect()) {
+			audioController.play(R.raw.correct);
 			int nextQuestionIdIndex = questionIdIndex + 1;
 			if (nextQuestionIdIndex >= questionsIds.length) {
 				message = getString(R.string.completed_questions);
@@ -129,6 +132,7 @@ public class QuestionActivity extends Activity {
 				startActivity(intent);
 			}
 		} else {
+			audioController.play(R.raw.wrong);
 			message = getString(R.string.wrong_answer);
 		}
 		Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
