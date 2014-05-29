@@ -16,9 +16,8 @@ public class LaunchThermometer extends SimpleOnGestureListener {
 	}
 
 	@Override
-	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-			float velocityY) {
+	public void onLongPress(MotionEvent e) {
 		context.startActivity(new Intent(context, ThermometerActivity.class));
-		return super.onFling(e1, e2, velocityX, velocityY);
+		super.onLongPress(e);
 	}
 }

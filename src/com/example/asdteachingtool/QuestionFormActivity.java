@@ -189,14 +189,16 @@ public class QuestionFormActivity extends Activity {
 			}
 			break;
 		case REQUEST_CODE_CROP_IMAGE:
-			String path = data.getStringExtra(CropImage.IMAGE_PATH);
-			if (path == null) {
-				Log.e(LOG_TAG, "Crop image is null");
-				return;
-			}
+			if (resultCode == RESULT_OK) {
+				String path = data.getStringExtra(CropImage.IMAGE_PATH);
+				if (path == null) {
+					Log.e(LOG_TAG, "Crop image is null");
+					return;
+				}
 
-			receivePicture.receive(path);
-			receivePicture = null;
+				receivePicture.receive(path);
+				receivePicture = null;
+			}
 			break;
 		}
 	}
@@ -285,17 +287,10 @@ public class QuestionFormActivity extends Activity {
 				new android.content.DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						ActiveAndroid.beginTransaction();
-						try {
-							View option = (View) button.getParent();
-							ViewGroup optionsContainer = (ViewGroup) option
-									.getParent();
-							optionsContainer.removeView(option);
-							ActiveAndroid.setTransactionSuccessful();
-						} finally {
-							ActiveAndroid.endTransaction();
-							back();
-						}
+						View option = (View) button.getParent();
+						ViewGroup optionsContainer = (ViewGroup) option
+								.getParent();
+						optionsContainer.removeView(option);
 					}
 				});
 	}

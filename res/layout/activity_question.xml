@@ -9,13 +9,20 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".QuestionActivity" >
 
-    <ImageView
-        android:id="@+id/questionPicture"
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="left"
-        android:layout_weight="0.5"
-        android:src="@android:drawable/picture_frame" />
+        android:layout_weight="0.5" >
+
+        <ImageView
+            android:id="@+id/questionPicture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:padding="5dp"
+            android:src="@android:drawable/picture_frame" />
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="0dp"
@@ -28,8 +35,9 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-<!--             <include layout="@layout/option" /> -->
-<!--             <include layout="@layout/option" /> -->
+
+            <!-- <include layout="@layout/option" /> -->
+            <!-- <include layout="@layout/option" /> -->
         </LinearLayout>
     </ScrollView>
 

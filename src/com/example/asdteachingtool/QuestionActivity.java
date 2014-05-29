@@ -1,11 +1,13 @@
 package com.example.asdteachingtool;
 
-import java.util.Locale;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.GestureDetectorCompat;
@@ -14,6 +16,7 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -23,8 +26,10 @@ import android.widget.Toast;
 
 import com.activeandroid.util.Log;
 import com.example.asdteachingtool.components.AudioController;
+import com.example.asdteachingtool.components.ConnectingStroke;
 import com.example.asdteachingtool.factories.BitmapFactory;
 import com.example.asdteachingtool.listeners.LaunchThermometer;
+import com.example.asdteachingtool.listeners.SelectListener;
 import com.example.asdteachingtool.models.Option;
 import com.example.asdteachingtool.models.Question;
 
@@ -40,10 +45,12 @@ public class QuestionActivity extends Activity {
 	private int questionIdIndex;
 	private AudioController audioController;
 	private GestureDetectorCompat gestureDetector;
+	private List<View> options;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		options = new ArrayList<View>();
 		gestureDetector = new GestureDetectorCompat(this,
 				new LaunchThermometer(this));
 		audioController = new AudioController(this);
@@ -66,6 +73,11 @@ public class QuestionActivity extends Activity {
 		question = Question.load(Question.class, questionsIds[questionIdIndex]);
 
 		updateView();
+		ConnectingStroke stroke = new ConnectingStroke(this, Color.RED);
+		addContentView(stroke, new LayoutParams(LayoutParams.MATCH_PARENT,
+				LayoutParams.MATCH_PARENT));
+		((ImageView) findViewById(R.id.questionPicture))
+				.setOnTouchListener(new SelectListener(stroke, Color.BLUE, options));
 	}
 
 	private void updateView() {
@@ -97,14 +109,18 @@ public class QuestionActivity extends Activity {
 		ImageButton optionPictureButton = (ImageButton) v
 				.findViewById(R.id.optionPictureButton);
 
+		View optionButton = null;
 		if (option.hasText()) {
 			optionTextButton.setText(option.text);
 			optionPictureButton.setVisibility(View.GONE);
+			optionButton = optionTextButton;
 		} else {
 			optionPictureButton.setImageBitmap(BitmapFactory
 					.decodeByteArray(option.picture));
 			optionTextButton.setVisibility(View.GONE);
+			optionButton = optionPictureButton;
 		}
+		options.add(optionButton);
 	}
 
 	@Override
