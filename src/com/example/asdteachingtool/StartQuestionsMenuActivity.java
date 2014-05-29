@@ -8,12 +8,12 @@ import android.view.View;
 
 import com.example.asdteachingtool.models.Question;
 
-public class StartMenuActivity extends Activity {
+public class StartQuestionsMenuActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_start_menu);
+		setContentView(R.layout.activity_start_questions_menu);
 	}
 	
 	@Override

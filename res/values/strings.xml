@@ -19,13 +19,22 @@
     <string name="confirm_delete_option">Tem certeza de que deseja remover essa opção?</string>
     <string name="new_option">Nova opção</string>
     <string name="pick_intent_picture">Selecione uma imagem ou tire uma foto</string>
-    <string name="title_activity_start_menu">ASD Teaching Tool</string>
-    <string name="start_questions">Começar</string>
-    <string name="edit_questions">Editar</string>
+    <string name="title_activity_start_questions_menu">ASD Teaching Tool</string>
+    <string name="start_questions">Começar questões</string>
+    <string name="edit_questions">Editar questões</string>
     <string name="correct_answer">Correto!</string>
     <string name="wrong_answer">Errado...</string>
     <string name="completed_questions">Você completou todas as questões!</string>
     <string name="error_opening_question">Houve um erro ao abrir a questão.</string>
     <string name="title_activity_thermometer">Como você está se sentindo?</string>
+    <string name="title_activity_select_game">Selectione o jogo</string>
+    <string name="start_questions_menu">Perguntas e Respostas</string>
+    <string name="start_pecs_menu">PECS</string>
+    <string name="title_activity_start_pecs_menu">PECS</string>
+    <string name="start_pecs_training">Treinar PECS</string>
+    <string name="edit_pecs">Editar PECS</string>
+    <string name="title_activity_pecs">PecsActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_edit_pecs">EditPecsActivity</string>
 
 </resources>

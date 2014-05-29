@@ -77,7 +77,8 @@ public class QuestionFormActivity extends Activity {
 		} else {
 			ActiveAndroid.clearCache();
 			this.question = Question.load(Question.class, questionId);
-			setTitle(getString(R.string.edit_question) + " " + question.title);
+			setTitle(getString(R.string.edit_question) + " "
+					+ question.getTitle());
 		}
 		updateView();
 
@@ -86,8 +87,8 @@ public class QuestionFormActivity extends Activity {
 	}
 
 	private void updateView() {
-		questionTitleTextView.setText(question.title);
-		new ReceivePicture(questionThumbnail).receive(question.picture);
+		questionTitleTextView.setText(question.getTitle());
+		new ReceivePicture(questionThumbnail).receive(question.getPicture());
 
 		for (Option option : question.options()) {
 			newOptionView(option);
@@ -211,15 +212,15 @@ public class QuestionFormActivity extends Activity {
 	public void updateQuestion() {
 		ActiveAndroid.beginTransaction();
 		try {
-			question.title = questionTitleTextView.getText().toString();
-			question.picture = (byte[]) questionThumbnail.getTag();
-			question.save();
+			question.setTitle(questionTitleTextView.getText().toString());
+			question.setPicture((byte[]) questionThumbnail.getTag());
+			question.secureSave();
 
 			deleteOptions();
-
 			for (int i = 0; i < optionsContainer.getChildCount(); i++) {
 				ViewGroup optionView = (ViewGroup) optionsContainer
 						.getChildAt(i);
+
 				Option option = new Option();
 
 				option.question = question;
@@ -228,12 +229,12 @@ public class QuestionFormActivity extends Activity {
 				EditText optionText = (EditText) optionView
 						.findViewById(R.id.optionText);
 				if (optionText.getVisibility() == View.VISIBLE) {
-					option.text = optionText.getText().toString();
+					option.setText(optionText.getText().toString());
 				}
 				if (optionView.findViewById(R.id.optionPictureContainer)
 						.getVisibility() == View.VISIBLE) {
-					option.picture = (byte[]) optionView.findViewById(
-							R.id.optionPicture).getTag();
+					option.setPicture((byte[]) optionView.findViewById(
+							R.id.optionPicture).getTag());
 				}
 				String path = (String) optionView.findViewById(
 						R.id.audioController).getTag();
@@ -243,9 +244,9 @@ public class QuestionFormActivity extends Activity {
 							Environment.getExternalStorageDirectory(), "audio/"
 									+ tempSoundFile.getName());
 					FileUtils.copyFile(tempSoundFile, soundFile);
-					option.soundPath = soundFile.getPath();
+					option.setSoundPath(soundFile.getPath());
 				}
-				option.save();
+				option.secureSave();
 			}
 
 			ActiveAndroid.setTransactionSuccessful();
@@ -256,7 +257,9 @@ public class QuestionFormActivity extends Activity {
 
 	private void deleteOptions() {
 		for (Option option : question.options()) {
-			option.secureDelete();
+			if (option.isPersisted()) {
+				option.secureDelete();
+			}
 		}
 	}
 
@@ -269,15 +272,8 @@ public class QuestionFormActivity extends Activity {
 				new android.content.DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						ActiveAndroid.beginTransaction();
-						try {
-							deleteOptions();
-							question.delete();
-							ActiveAndroid.setTransactionSuccessful();
-						} finally {
-							ActiveAndroid.endTransaction();
-							back();
-						}
+						question.secureDelete();
+						back();
 					}
 				});
 	}
@@ -327,11 +323,11 @@ public class QuestionFormActivity extends Activity {
 	}
 
 	private void populateOptionView(Option option, ViewGroup v) {
-		((EditText) v.findViewById(R.id.optionText)).setText(option.text);
+		((EditText) v.findViewById(R.id.optionText)).setText(option.getText());
 		((CheckBox) v.findViewById(R.id.optionCorrect)).setChecked(option
 				.isCorrect());
 		new ReceivePicture((ImageView) v.findViewById(R.id.optionPicture))
-				.receive(option.picture);
+				.receive(option.getPicture());
 		v.findViewById(R.id.optionTakePicture).setOnClickListener(
 				new OnClickListener() {
 					@Override
@@ -352,7 +348,8 @@ public class QuestionFormActivity extends Activity {
 		if (option.hasSound()) {
 			String sound = TempFilesManager.getInstance().createTempFile(
 					"audio", ".3pg", getExternalCacheDir());
-			FileUtils.copyFile(new File(option.soundPath), new File(sound));
+			FileUtils
+					.copyFile(new File(option.getSoundPath()), new File(sound));
 			v.findViewById(R.id.audioController).setTag(sound);
 		}
 
@@ -364,7 +361,8 @@ public class QuestionFormActivity extends Activity {
 		stop.setOnClickListener(audioControllerFactory.onStop());
 
 		View play = v.findViewById(R.id.audioPlay);
-		if (option.soundPath == null || option.soundPath.length() == 0) {
+		if (option.getSoundPath() == null
+				|| option.getSoundPath().length() == 0) {
 			play.setEnabled(false);
 		}
 		play.setOnClickListener(audioControllerFactory.onPlay());

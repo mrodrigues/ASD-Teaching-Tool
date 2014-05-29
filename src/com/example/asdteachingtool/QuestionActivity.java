@@ -87,7 +87,7 @@ public class QuestionActivity extends Activity {
 	private void updateView() {
 		ImageView questionPicture = (ImageView) findViewById(R.id.questionPicture);
 		questionPicture.setImageBitmap(BitmapFactory
-				.decodeByteArray(question.picture));
+				.decodeByteArray(question.getPicture()));
 
 		for (Option option : question.options()) {
 			newOptionView(option);
@@ -111,12 +111,12 @@ public class QuestionActivity extends Activity {
 
 		View optionButton = null;
 		if (option.hasText()) {
-			optionTextButton.setText(option.text);
+			optionTextButton.setText(option.getText());
 			optionPictureButton.setVisibility(View.GONE);
 			optionButton = optionTextButton;
 		} else {
 			optionPictureButton.setImageBitmap(BitmapFactory
-					.decodeByteArray(option.picture));
+					.decodeByteArray(option.getPicture()));
 			optionTextButton.setVisibility(View.GONE);
 			optionButton = optionPictureButton;
 		}
@@ -132,7 +132,7 @@ public class QuestionActivity extends Activity {
 
 	public void selectOption(View v) {
 		Option option = optionFromView(v);
-		audioController.play(option.soundPath);
+		audioController.play(option.getSoundPath());
 		String message = null;
 		if (option.isCorrect()) {
 			if (lastQuestion()) {
@@ -148,7 +148,7 @@ public class QuestionActivity extends Activity {
 		}
 		Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 	}
-	
+
 	private boolean lastQuestion() {
 		return questionIdIndex + 1 >= questionsIds.length;
 	}

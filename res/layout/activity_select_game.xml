@@ -8,20 +8,20 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".StartMenuActivity" >
+    tools:context=".SelectGameActivity" >
 
     <Button
-        android:id="@+id/startQuestions"
         android:layout_width="@dimen/start_button"
         android:layout_height="wrap_content"
-        android:onClick="startQuestions"
-        android:text="@string/start_questions" />
+        android:onClick="startQuestionsMenu"
+        android:drawableLeft="@android:drawable/ic_menu_help"
+        android:text="@string/start_questions_menu" />
     
     <Button
         android:layout_width="@dimen/start_button"
         android:layout_height="wrap_content"
-        android:text="@string/edit_questions"
-        android:drawableLeft="@android:drawable/ic_menu_edit"
-        android:onClick="editQuestions" />
+        android:text="@string/start_pecs_menu"
+        android:drawableLeft="@android:drawable/ic_menu_gallery"
+        android:onClick="startPecsMenu" />
 
 </LinearLayout>

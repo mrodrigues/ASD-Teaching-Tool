@@ -1,50 +1,72 @@
 package com.example.asdteachingtool.models;
 
-import java.io.File;
+import java.util.List;
 
-import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
-import com.activeandroid.util.Log;
 
 @Table(name = "Options")
-public class Option extends Model {
-	
+public class Option extends SecureModel {
+
 	private static final String LOG_TAG = "Option";
-	
+
 	@Column(name = "Correct")
 	public Boolean correct;
-	
-	@Column(name = "Text")
-	public String text;
-	
-	@Column(name = "Picture")
-	public byte[] picture;
-	
-	@Column(name = "SoundPath")
-	public String soundPath;
-	
-	@Column(name = "Question")
+
+	@Column(name = "Question", notNull = true, index = true)
 	public Question question;
+
+	private Card card;
+
+	public void beforeDelete() {
+		card().secureDelete();
+	}
+
+	public void afterSave() {
+		card().option = this;
+		card().secureSave();
+	}
+
+	private Card card() {
+		if (card == null) {
+			card = first(Card.class);
+		}
+		return card;
+	}
 
 	public Boolean isCorrect() {
 		return correct == null ? false : correct;
 	}
-	
+
 	public Boolean hasText() {
-		return text != null && text.length() > 0;
+		return card().text != null && card().text.length() > 0;
 	}
-	
+
 	public Boolean hasSound() {
-		return soundPath != null && soundPath.length() > 0;
+		return card().soundPath != null && card().soundPath.length() > 0;
 	}
-	
-	public void secureDelete() {
-		if (soundPath != null && soundPath.length() > 0) {
-			if (! new File(soundPath).delete()) {
-				Log.e(LOG_TAG, "File not deleted: " + soundPath);
-			}
-		}
-		delete();
+
+	public String getText() {
+		return card().getText();
+	}
+
+	public void setText(String text) {
+		card().setText(text);
+	}
+
+	public byte[] getPicture() {
+		return card().getPicture();
+	}
+
+	public void setPicture(byte[] picture) {
+		card().setPicture(picture);
+	}
+
+	public String getSoundPath() {
+		return card().getSoundPath();
+	}
+
+	public void setSoundPath(String soundPath) {
+		card().setSoundPath(soundPath);
 	}
 }

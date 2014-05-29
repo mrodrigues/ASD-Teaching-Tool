@@ -31,7 +31,9 @@ public class AudioController {
 	}
 
 	public synchronized void play(String file) {
-		startPlayer(MediaPlayer.create(context, Uri.parse(file)));
+		if (file != null) {
+			startPlayer(MediaPlayer.create(context, Uri.parse(file)));
+		}
 	}
 
 	private synchronized void startPlayer(MediaPlayer player) {

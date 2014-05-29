@@ -79,24 +79,32 @@ public final class R {
         public static final int startQuestions=0x7f090009;
     }
     public static final class layout {
-        public static final int activity_question=0x7f030000;
-        public static final int activity_question_form=0x7f030001;
-        public static final int activity_setup=0x7f030002;
-        public static final int activity_start_menu=0x7f030003;
-        public static final int activity_thermometer=0x7f030004;
-        public static final int audio_controller=0x7f030005;
-        public static final int cropimage=0x7f030006;
-        public static final int main=0x7f030007;
-        public static final int option=0x7f030008;
-        public static final int option_form=0x7f030009;
+        public static final int activity_edit_pecs=0x7f030000;
+        public static final int activity_pecs=0x7f030001;
+        public static final int activity_question=0x7f030002;
+        public static final int activity_question_form=0x7f030003;
+        public static final int activity_questions_list=0x7f030004;
+        public static final int activity_select_game=0x7f030005;
+        public static final int activity_start_pecs_menu=0x7f030006;
+        public static final int activity_start_questions_menu=0x7f030007;
+        public static final int activity_thermometer=0x7f030008;
+        public static final int audio_controller=0x7f030009;
+        public static final int cropimage=0x7f03000a;
+        public static final int main=0x7f03000b;
+        public static final int option=0x7f03000c;
+        public static final int option_form=0x7f03000d;
     }
     public static final class menu {
         public static final int display_message=0x7f080000;
-        public static final int new_question=0x7f080001;
-        public static final int questionnaire=0x7f080002;
-        public static final int setup=0x7f080003;
-        public static final int start_menu=0x7f080004;
-        public static final int thermometer=0x7f080005;
+        public static final int edit_pecs=0x7f080001;
+        public static final int new_question=0x7f080002;
+        public static final int pecs=0x7f080003;
+        public static final int questionnaire=0x7f080004;
+        public static final int select_game=0x7f080005;
+        public static final int setup=0x7f080006;
+        public static final int start_menu=0x7f080007;
+        public static final int start_pecs_menu=0x7f080008;
+        public static final int thermometer=0x7f080009;
     }
     public static final class raw {
         public static final int correct=0x7f040000;
@@ -112,9 +120,11 @@ public final class R {
         public static final int correct_answer=0x7f05001b;
         public static final int delete_option=0x7f050013;
         public static final int delete_question=0x7f050012;
+        public static final int edit_pecs=0x7f050025;
         public static final int edit_question=0x7f05000b;
         public static final int edit_questions=0x7f05001a;
         public static final int error_opening_question=0x7f05001e;
+        public static final int hello_world=0x7f050027;
         public static final int new_option=0x7f050016;
         public static final int new_question=0x7f05000a;
         public static final int no_storage_card=0x7f050004;
@@ -129,10 +139,17 @@ public final class R {
         public static final int question_title=0x7f05000c;
         public static final int save=0x7f050001;
         public static final int saving_image=0x7f050002;
+        public static final int start_pecs_menu=0x7f050022;
+        public static final int start_pecs_training=0x7f050024;
         public static final int start_questions=0x7f050019;
+        public static final int start_questions_menu=0x7f050021;
+        public static final int title_activity_edit_pecs=0x7f050028;
         public static final int title_activity_new_question=0x7f050009;
+        public static final int title_activity_pecs=0x7f050026;
+        public static final int title_activity_select_game=0x7f050020;
         public static final int title_activity_setup=0x7f050008;
-        public static final int title_activity_start_menu=0x7f050018;
+        public static final int title_activity_start_pecs_menu=0x7f050023;
+        public static final int title_activity_start_questions_menu=0x7f050018;
         public static final int title_activity_thermometer=0x7f05001f;
         public static final int wrong_answer=0x7f05001c;
     }

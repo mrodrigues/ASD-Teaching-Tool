@@ -37,19 +37,19 @@
             android:name="com.example.asdteachingtool.QuestionActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
-            android:parentActivityName="com.example.asdteachingtool.StartMenuActivity"
+            android:parentActivityName="com.example.asdteachingtool.StartQuestionsMenuActivity"
             android:screenOrientation="landscape" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.asdteachingtool.StartMenuActivity" />
+                android:value="com.example.asdteachingtool.StartQuestionsMenuActivity" />
         </activity>
         <activity
             android:name="com.example.asdteachingtool.QuestionsListActivity"
             android:label="@string/title_activity_setup"
-            android:parentActivityName="com.example.asdteachingtool.StartMenuActivity" >
+            android:parentActivityName="com.example.asdteachingtool.StartQuestionsMenuActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.asdteachingtool.StartMenuActivity" />
+                android:value="com.example.asdteachingtool.StartQuestionsMenuActivity" />
         </activity>
         <activity
             android:name="com.example.asdteachingtool.QuestionFormActivity"
@@ -61,13 +61,11 @@
                 android:value="com.example.asdteachingtool.QuestionsListActivity" />
         </activity>
         <activity
-            android:name="com.example.asdteachingtool.StartMenuActivity"
-            android:label="@string/title_activity_start_menu" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:name="com.example.asdteachingtool.StartQuestionsMenuActivity"
+            android:label="@string/title_activity_start_questions_menu" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.asdteachingtool.SelectGameActivity" />
         </activity>
         <activity
             android:name="com.example.asdteachingtool.ThermometerActivity"
@@ -78,6 +76,39 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.asdteachingtool.QuestionActivity" />
+        </activity>
+        <activity
+            android:name="com.example.asdteachingtool.SelectGameActivity"
+            android:label="@string/title_activity_select_game" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.asdteachingtool.StartPecsMenuActivity"
+            android:label="@string/title_activity_start_pecs_menu"
+            android:parentActivityName="com.example.asdteachingtool.SelectGameActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.asdteachingtool.SelectGameActivity" />
+        </activity>
+        <activity
+            android:name="com.example.asdteachingtool.PecsActivity"
+            android:label="@string/title_activity_pecs"
+            android:parentActivityName="com.example.asdteachingtool.SelectGameActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.asdteachingtool.SelectGameActivity" />
+        </activity>
+        <activity
+            android:name="com.example.asdteachingtool.EditPecsActivity"
+            android:label="@string/title_activity_edit_pecs"
+            android:parentActivityName="com.example.asdteachingtool.StartPecsMenuActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.asdteachingtool.StartPecsMenuActivity" />
         </activity>
     </application>
 

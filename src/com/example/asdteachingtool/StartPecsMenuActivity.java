@@ -1,45 +1,23 @@
 package com.example.asdteachingtool;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Build;
+import com.example.asdteachingtool.models.Question;
+
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
+import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.Button;
+import android.support.v4.app.NavUtils;
+import android.annotation.TargetApi;
+import android.content.Intent;
+import android.os.Build;
 
-import com.example.asdteachingtool.models.Question;
-
-public class QuestionsListActivity extends Activity {
+public class StartPecsMenuActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_questions_list);
-		
-		ViewGroup questionnairesList = (ViewGroup) findViewById(R.id.questionnaires_list);
-		questionnairesList.removeAllViews();
-		for (Question question : Question.all()) {
-			Button questionView = new Button(this);
-			questionView.setTextSize(20);
-			questionView.setText(question.getTitle());
-			questionView.setTag(question.getId());
-			questionnairesList.addView(questionView);
-			questionView.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Intent intent = new Intent(v.getContext(), QuestionFormActivity.class);
-					intent.putExtra(QuestionFormActivity.EXTRA_QUESTION_ID, (Long) v.getTag());
-					startActivity(intent);
-				}
-			});
-		}
-		
+		setContentView(R.layout.activity_start_pecs_menu);
 		// Show the Up button in the action bar.
 		setupActionBar();
 	}
@@ -57,7 +35,7 @@ public class QuestionsListActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.setup, menu);
+		getMenuInflater().inflate(R.menu.start_pecs_menu, menu);
 		return true;
 	}
 
@@ -78,7 +56,12 @@ public class QuestionsListActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void newQuestion(View view) {
-		startActivity(new Intent(this, QuestionFormActivity.class));
+	public void startPecsTraning(View v) {
+		startActivity(new Intent(this, QuestionsListActivity.class));
 	}
+	
+	public void editPecs(View v) {
+		startActivity(new Intent(this, QuestionsListActivity.class));
+	}
+
 }
