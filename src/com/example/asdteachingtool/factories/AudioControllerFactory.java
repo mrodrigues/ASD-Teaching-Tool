@@ -8,14 +8,14 @@ import android.view.ViewGroup;
 import com.example.asdteachingtool.R;
 import com.example.asdteachingtool.components.AudioController;
 import com.example.asdteachingtool.components.TempFilesManager;
-import com.example.asdteachingtool.observers.PlayObserver;
+import com.example.asdteachingtool.listeners.PlayerListener;
 
-public class AudioControllerFactories {
+public class AudioControllerFactory {
 	
 	private AudioController audioController;
 	private Context context;
 
-	public AudioControllerFactories(Context context) {
+	public AudioControllerFactory(Context context) {
 		this.context = context;
 		this.audioController = new AudioController(context);
 	}
@@ -55,10 +55,11 @@ public class AudioControllerFactories {
 			
 			@Override
 			public void onClick(View v) {
-				audioController.addPlayObserver(new PlayObserver(v) {
+				audioController.addPlayObserver(new PlayerListener(v) {
 					@Override
-					public void playReachedEnd() {
+					public boolean playReachedEnd() {
 						this.playButton.setEnabled(true);
+						return false;
 					}
 				});
 				v.setEnabled(false);

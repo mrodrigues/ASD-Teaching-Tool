@@ -7,7 +7,6 @@ import android.graphics.Rect;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnHoverListener;
 import android.view.View.OnTouchListener;
 
 import com.example.asdteachingtool.components.ConnectingStroke;

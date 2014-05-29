@@ -28,6 +28,7 @@ import com.activeandroid.util.Log;
 import com.example.asdteachingtool.components.AudioController;
 import com.example.asdteachingtool.components.ConnectingStroke;
 import com.example.asdteachingtool.factories.BitmapFactory;
+import com.example.asdteachingtool.factories.PlayObserverFactory;
 import com.example.asdteachingtool.listeners.LaunchThermometer;
 import com.example.asdteachingtool.listeners.SelectListener;
 import com.example.asdteachingtool.models.Option;
@@ -46,6 +47,7 @@ public class QuestionActivity extends Activity {
 	private AudioController audioController;
 	private GestureDetectorCompat gestureDetector;
 	private List<View> options;
+	private PlayObserverFactory playObserverFactory;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class QuestionActivity extends Activity {
 		gestureDetector = new GestureDetectorCompat(this,
 				new LaunchThermometer(this));
 		audioController = new AudioController(this);
+		playObserverFactory = new PlayObserverFactory(this, audioController);
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -77,7 +80,8 @@ public class QuestionActivity extends Activity {
 		addContentView(stroke, new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT));
 		((ImageView) findViewById(R.id.questionPicture))
-				.setOnTouchListener(new SelectListener(stroke, Color.BLUE, options));
+				.setOnTouchListener(new SelectListener(stroke, Color.BLUE,
+						options));
 	}
 
 	private void updateView() {
@@ -99,10 +103,6 @@ public class QuestionActivity extends Activity {
 
 	private void populateOptionView(Option option, ViewGroup v) {
 		v.setTag(option);
-
-		if (!option.hasSound()) {
-			v.findViewById(R.id.optionPlaySound).setVisibility(View.GONE);
-		}
 
 		Button optionTextButton = (Button) v
 				.findViewById(R.id.optionTextButton);
@@ -132,26 +132,32 @@ public class QuestionActivity extends Activity {
 
 	public void selectOption(View v) {
 		Option option = optionFromView(v);
+		audioController.play(option.soundPath);
 		String message = null;
 		if (option.isCorrect()) {
-			audioController.play(R.raw.correct);
-			int nextQuestionIdIndex = questionIdIndex + 1;
-			if (nextQuestionIdIndex >= questionsIds.length) {
+			if (lastQuestion()) {
 				message = getString(R.string.completed_questions);
-				NavUtils.navigateUpFromSameTask(this);
+				playObserverFactory.afterCompletingAllQuestions(v);
 			} else {
 				message = getString(R.string.correct_answer);
-				Intent intent = new Intent(v.getContext(),
-						QuestionActivity.class);
-				intent.putExtra(EXTRA_QUESTIONS_IDS, questionsIds);
-				intent.putExtra(EXTRA_QUESTION_ID_INDEX, nextQuestionIdIndex);
-				startActivity(intent);
+				playObserverFactory.afterCorrectQuestion(v);
 			}
 		} else {
-			audioController.play(R.raw.wrong);
+			playObserverFactory.afterWrongQuestion(v);
 			message = getString(R.string.wrong_answer);
 		}
 		Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+	}
+	
+	private boolean lastQuestion() {
+		return questionIdIndex + 1 >= questionsIds.length;
+	}
+
+	public void nextQuestion() {
+		Intent intent = new Intent(this, QuestionActivity.class);
+		intent.putExtra(EXTRA_QUESTIONS_IDS, questionsIds);
+		intent.putExtra(EXTRA_QUESTION_ID_INDEX, questionIdIndex + 1);
+		startActivity(intent);
 	}
 
 	@Override
@@ -164,11 +170,6 @@ public class QuestionActivity extends Activity {
 	public void onConfigurationChanged(Configuration newConfig) {
 		// ignore orientation/keyboard change
 		super.onConfigurationChanged(newConfig);
-	}
-
-	public void playSound(View v) {
-		Option option = optionFromView(v);
-		audioController.play(option.soundPath);
 	}
 
 	private Option optionFromView(View v) {

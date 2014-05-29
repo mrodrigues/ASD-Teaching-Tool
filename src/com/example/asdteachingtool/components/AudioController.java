@@ -8,71 +8,60 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.util.Log;
 
-import com.example.asdteachingtool.observers.PlayObserver;
+import com.example.asdteachingtool.listeners.PlayerListener;
 
 public class AudioController {
 
 	private static final String LOG_TAG = "AudioRecorder";
 	private MediaRecorder recorder;
 	private MediaPlayer player;
-	private List<PlayObserver> playObservers;
+	private List<PlayerListener> playerListeners;
 	private Context context;
 
 	public AudioController(Context context) {
 		this.context = context;
-		playObservers = new ArrayList<PlayObserver>();
+		playerListeners = new ArrayList<PlayerListener>();
 	}
 
-	public void play(int id) {
+	public synchronized void play(int id) {
 		startPlayer(MediaPlayer.create(context, id));
 	}
 
-	public void play(String file) {
+	public synchronized void play(String file) {
+		startPlayer(MediaPlayer.create(context, Uri.parse(file)));
+	}
+
+	private synchronized void startPlayer(MediaPlayer player) {
 		if (isPlaying()) {
 			stop();
 		}
 
-		player = new MediaPlayer();
-		try {
-			player.setDataSource(file);
-			player.prepare();
-			player.start();
+		this.player = player;
+
+		if (player != null) {
 			player.setOnCompletionListener(new OnCompletionListener() {
 				@Override
 				public void onCompletion(MediaPlayer mp) {
 					AudioController.this.stop();
-					for (PlayObserver observer : playObservers) {
-						observer.playReachedEnd();
+					List<PlayerListener> toRemove = new ArrayList<PlayerListener>();
+					for (PlayerListener observer : playerListeners) {
+						if (observer.playReachedEnd()) {
+							toRemove.add(observer);
+						}
+					}
+					for (PlayerListener observer : toRemove) {
+						playerListeners.remove(observer);
 					}
 				}
 			});
-		} catch (IOException e) {
-			Log.e(LOG_TAG, "prepare() failed");
+			player.start();
 		}
 	}
-	
-	private void startPlayer(MediaPlayer player) {
-		if (isPlaying()) {
-			stop();
-		}
-		
-		this.player = player;
 
-		player.start();
-		player.setOnCompletionListener(new OnCompletionListener() {
-			@Override
-			public void onCompletion(MediaPlayer mp) {
-				AudioController.this.stop();
-				for (PlayObserver observer : playObservers) {
-					observer.playReachedEnd();
-				}
-			}
-		});		
-	}
-
-	public void record(String file) {
+	public synchronized void record(String file) {
 		if (isRecording()) {
 			stop();
 		}
@@ -92,7 +81,7 @@ public class AudioController {
 		recorder.start();
 	}
 
-	public void stop() {
+	public synchronized void stop() {
 		if (isRecording()) {
 			recorder.stop();
 			recorder.release();
@@ -113,8 +102,7 @@ public class AudioController {
 		return recorder != null;
 	}
 
-	public void addPlayObserver(PlayObserver playObserver) {
-		playObservers.add(playObserver);
+	public synchronized void addPlayObserver(PlayerListener playerListener) {
+		playerListeners.add(playerListener);
 	}
-
 }

@@ -30,7 +30,7 @@ import android.widget.RadioGroup;
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.util.Log;
 import com.example.asdteachingtool.components.TempFilesManager;
-import com.example.asdteachingtool.factories.AudioControllerFactories;
+import com.example.asdteachingtool.factories.AudioControllerFactory;
 import com.example.asdteachingtool.methodobjects.ReceivePicture;
 import com.example.asdteachingtool.models.Option;
 import com.example.asdteachingtool.models.Question;
@@ -52,7 +52,7 @@ public class QuestionFormActivity extends Activity {
 	private ViewGroup optionsContainer;
 
 	private ReceivePicture receivePicture;
-	private AudioControllerFactories audioControllerFactories;
+	private AudioControllerFactory audioControllerFactory;
 
 	private Question question;
 	private String targetFile;
@@ -61,7 +61,7 @@ public class QuestionFormActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		audioControllerFactories = new AudioControllerFactories(this);
+		audioControllerFactory = new AudioControllerFactory(this);
 
 		setContentView(R.layout.activity_question_form);
 		questionTitleTextView = (EditText) findViewById(R.id.questionTitle);
@@ -357,17 +357,17 @@ public class QuestionFormActivity extends Activity {
 		}
 
 		View record = v.findViewById(R.id.audioRecord);
-		record.setOnClickListener(audioControllerFactories.onRecord());
+		record.setOnClickListener(audioControllerFactory.onRecord());
 
 		View stop = v.findViewById(R.id.audioStop);
 		stop.setEnabled(false);
-		stop.setOnClickListener(audioControllerFactories.onStop());
+		stop.setOnClickListener(audioControllerFactory.onStop());
 
 		View play = v.findViewById(R.id.audioPlay);
 		if (option.soundPath == null || option.soundPath.length() == 0) {
 			play.setEnabled(false);
 		}
-		play.setOnClickListener(audioControllerFactories.onPlay());
+		play.setOnClickListener(audioControllerFactory.onPlay());
 	}
 
 	private void confirm(int message,
