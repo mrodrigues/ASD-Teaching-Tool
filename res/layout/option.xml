@@ -3,22 +3,24 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:gravity="center"
     android:layout_marginBottom="@dimen/option_margin"
-    android:paddingBottom="@dimen/option_margin"
-    android:orientation="horizontal" >
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/option_margin" >
 
     <Button
         android:id="@+id/optionTextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="selectOption" />
+        android:onClick="selectOption"
+        android:padding="@dimen/card_border" />
 
     <ImageButton
         android:id="@+id/optionPictureButton"
         android:layout_width="@dimen/option_image"
         android:layout_height="@dimen/option_image"
-        android:scaleType="centerInside"
-        android:onClick="selectOption" />
+        android:onClick="selectOption"
+        android:padding="@dimen/card_border"
+        android:scaleType="centerInside" />
 
 </LinearLayout>

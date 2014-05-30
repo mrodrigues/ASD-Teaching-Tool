@@ -13,29 +13,77 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true" >
 
-        <LinearLayout
-            android:id="@+id/questionnaires_list"
+        <RadioGroup
+            android:id="@+id/questions_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <Button
+            <RadioButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ph-questionnaire1" />
+                android:checked="false"
+                android:text="question 1" />
 
-            <Button
+            <RadioButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ph-questionnaire1" />
-        </LinearLayout>
+                android:checked="false"
+                android:text="question 2" />
+        </RadioGroup>
     </ScrollView>
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="@string/new_question"
-        android:onClick="newQuestion" />
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/edit_question"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/ordering_button"
+                android:layout_weight="4"
+                android:enabled="false"
+                android:onClick="editQuestion"
+                android:text="@string/edit_question" />
+
+            <ImageButton
+                android:id="@+id/up_question"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/ordering_button"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:onClick="upQuestion"
+                android:src="@android:drawable/arrow_up_float" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="@dimen/ordering_button"
+                android:layout_weight="4"
+                android:onClick="newQuestion"
+                android:text="@string/new_question" />
+
+            <ImageButton
+                android:id="@+id/down_question"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/ordering_button"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:onClick="downQuestion"
+                android:src="@android:drawable/arrow_down_float" />
+        </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>

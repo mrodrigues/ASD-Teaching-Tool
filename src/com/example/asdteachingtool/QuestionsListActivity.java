@@ -10,38 +10,58 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
+import com.activeandroid.ActiveAndroid;
 import com.example.asdteachingtool.models.Question;
 
 public class QuestionsListActivity extends Activity {
+
+	private RadioGroup questionsList;
+	private Integer lastSelectedIndex;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_questions_list);
-		
-		ViewGroup questionnairesList = (ViewGroup) findViewById(R.id.questionnaires_list);
-		questionnairesList.removeAllViews();
+
+		questionsList = (RadioGroup) findViewById(R.id.questions_list);
+
+		// Show the Up button in the action bar.
+		setupActionBar();
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		lastSelectedIndex = null;
+		updateView();
+	}
+
+	private void updateView() {
+		questionsList.removeAllViews();
+		final View up = findViewById(R.id.up_question);
+		final View down = findViewById(R.id.down_question);
+		final View edit = findViewById(R.id.edit_question);
 		for (Question question : Question.all()) {
-			Button questionView = new Button(this);
-			questionView.setTextSize(20);
+			RadioButton questionView = new RadioButton(this);
 			questionView.setText(question.getTitle());
-			questionView.setTag(question.getId());
-			questionnairesList.addView(questionView);
+			questionView.setTag(question);
 			questionView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Intent intent = new Intent(v.getContext(), QuestionFormActivity.class);
-					intent.putExtra(QuestionFormActivity.EXTRA_QUESTION_ID, (Long) v.getTag());
-					startActivity(intent);
+					up.setEnabled(true);
+					down.setEnabled(true);
+					edit.setEnabled(true);
 				}
 			});
+			questionsList.addView(questionView);
 		}
-		
-		// Show the Up button in the action bar.
-		setupActionBar();
+		if (lastSelectedIndex != null) {
+			((RadioButton) questionsList.getChildAt(lastSelectedIndex))
+					.setChecked(true);
+		}
 	}
 
 	/**
@@ -80,5 +100,66 @@ public class QuestionsListActivity extends Activity {
 
 	public void newQuestion(View view) {
 		startActivity(new Intent(this, QuestionFormActivity.class));
+	}
+
+	public void editQuestion(View v) {
+		Intent intent = new Intent(v.getContext(), QuestionFormActivity.class);
+		View selected = selectedQuestion();
+		if (selected != null) {
+			intent.putExtra(QuestionFormActivity.EXTRA_QUESTION_ID,
+					((Question) selected.getTag()).getId());
+			startActivity(intent);
+		}
+	}
+
+	public void upQuestion(View v) {
+		int index = selectedIndex();
+		if (index > 0) {
+			changePositions(index, index - 1);
+		}
+	}
+
+	public void downQuestion(View v) {
+		int index = selectedIndex();
+		if (index < questionsList.getChildCount() - 1 && index > -1) {
+			changePositions(index, index + 1);
+		}
+	}
+
+	private void changePositions(int selectedIndex, int targetIndex) {
+		RadioButton selectedButton = (RadioButton) questionsList
+				.getChildAt(selectedIndex);
+		RadioButton targetButton = (RadioButton) questionsList
+				.getChildAt(targetIndex);
+		Question selected = (Question) selectedButton.getTag();
+		Question target = (Question) targetButton.getTag();
+		ActiveAndroid.beginTransaction();
+		try {
+			selected.changePositions(target);
+			selected.save();
+			target.save();
+			ActiveAndroid.setTransactionSuccessful();
+			lastSelectedIndex = targetIndex;
+		} finally {
+			ActiveAndroid.endTransaction();
+		}
+		updateView();
+	}
+
+	private RadioButton selectedQuestion() {
+		int id = questionsList.getCheckedRadioButtonId();
+		if (id < 0) {
+			return null;
+		} else {
+			return (RadioButton) questionsList.findViewById(id);
+		}
+	}
+
+	private int selectedIndex() {
+		RadioButton selected = selectedQuestion();
+		if (selected != null) {
+			return questionsList.indexOfChild(selected);
+		}
+		return -1;
 	}
 }

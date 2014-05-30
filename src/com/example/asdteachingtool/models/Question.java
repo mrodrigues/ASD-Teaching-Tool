@@ -4,13 +4,17 @@ import java.util.List;
 
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 
 @Table(name = "Questions")
 public class Question extends SecureModel {
 
 	@Column(name = "Title")
-	private String title;
+	public String title;
+
+	@Column(name = "Position", notNull = true, unique = true)
+	public Integer position;
 
 	private Card card;
 
@@ -21,12 +25,22 @@ public class Question extends SecureModel {
 		}
 	}
 
+	public void beforeSave() {
+		if (!isPersisted()) {
+			setPosition(0);
+			Question last = last();
+			if (last != null) {
+				setPosition(last.getPosition() + 1);
+			}
+		}
+	}
+
 	public void afterSave() {
 		card().question = this;
 		card().secureSave();
 	}
 
-	public Card card() {
+	private Card card() {
 		if (card == null) {
 			card = first(Card.class);
 		}
@@ -38,7 +52,20 @@ public class Question extends SecureModel {
 	}
 
 	public static List<Question> all() {
-		return new Select().from(Question.class).execute();
+		return scoped().execute();
+	}
+
+	public static Question last() {
+		List<Question> question = scoped().execute();
+		if (question.isEmpty()) {
+			return null;
+		} else {
+			return question.get(question.size() - 1);
+		}
+	}
+
+	private static From scoped() {
+		return new Select().from(Question.class).orderBy("Position ASC");
 	}
 
 	public static long[] allIds() {
@@ -80,6 +107,20 @@ public class Question extends SecureModel {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public Integer getPosition() {
+		return position;
+	}
+
+	public void setPosition(Integer position) {
+		this.position = position;
+	}
+
+	public void changePositions(Question target) {
+		Integer aux = getPosition();
+		setPosition(target.getPosition());
+		target.setPosition(aux);
 	}
 
 }
