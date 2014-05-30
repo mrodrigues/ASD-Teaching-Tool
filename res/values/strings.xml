@@ -36,5 +36,10 @@
     <string name="title_activity_pecs">PecsActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_edit_pecs">EditPecsActivity</string>
+    <string name="title_activity_categories_list">CategoriesListActivity</string>
+    <string name="category_subjects">Sujeitos</string>
+    <string name="category_verbs">Verbos</string>
+    <string name="category_objects">Objetos</string>
+    <string name="title_activity_pecs_list">PecsListActivity</string>
 
 </resources>

@@ -8,7 +8,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,6 +28,7 @@ import android.widget.RadioGroup;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.util.Log;
+import com.example.asdteachingtool.components.Sorter;
 import com.example.asdteachingtool.components.TempFilesManager;
 import com.example.asdteachingtool.factories.AudioControllerFactory;
 import com.example.asdteachingtool.methodobjects.ReceivePicture;
@@ -41,8 +41,6 @@ import eu.janmuller.android.simplecropimage.CropImage;
 public class QuestionFormActivity extends Activity {
 
 	private static final String LOG_TAG = "QuestionFormActivity";
-
-	public static final String EXTRA_QUESTION_ID = "com.example.asdteachingtool.QUESTION_ID";
 
 	private static final int REQUEST_CODE_TAKE_PICTURE = 0;
 	private static final int REQUEST_CODE_CROP_IMAGE = 1;
@@ -69,7 +67,7 @@ public class QuestionFormActivity extends Activity {
 		optionsContainer = (ViewGroup) findViewById(R.id.options_container);
 		optionsContainer.removeAllViews();
 
-		Long questionId = getIntent().getLongExtra(EXTRA_QUESTION_ID, -1);
+		Long questionId = getIntent().getLongExtra(Sorter.EXTRA_MODEL_ID, -1);
 		if (questionId == -1) {
 			this.question = new Question();
 			((ViewGroup) findViewById(R.id.questionForm))

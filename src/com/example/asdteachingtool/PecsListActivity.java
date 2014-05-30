@@ -1,23 +1,26 @@
 package com.example.asdteachingtool;
 
-import com.example.asdteachingtool.models.Question;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.support.v4.app.NavUtils;
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.os.Build;
 
-public class StartPecsMenuActivity extends Activity {
+public class PecsListActivity extends Activity {
+
+	private Integer categoryId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_start_pecs_menu);
+		setContentView(R.layout.activity_pecs_list);
+		setTitle(getIntent().getStringExtra(
+				CategoriesListActivity.EXTRA_CATEGORY_NAME));
+		categoryId = getIntent().getIntExtra(
+				CategoriesListActivity.EXTRA_CATEGORY_ID, -1);
+		
 		// Show the Up button in the action bar.
 		setupActionBar();
 	}
@@ -35,7 +38,7 @@ public class StartPecsMenuActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.start_pecs_menu, menu);
+		getMenuInflater().inflate(R.menu.pecs_list, menu);
 		return true;
 	}
 
@@ -54,14 +57,6 @@ public class StartPecsMenuActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	public void startPecsTraning(View v) {
-		startActivity(new Intent(this, QuestionsListActivity.class));
-	}
-	
-	public void editPecs(View v) {
-		startActivity(new Intent(this, CategoriesListActivity.class));
 	}
 
 }

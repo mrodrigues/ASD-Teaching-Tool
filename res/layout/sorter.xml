@@ -14,7 +14,7 @@
         android:layout_alignParentTop="true" >
 
         <RadioGroup
-            android:id="@+id/questions_list"
+            android:id="@+id/modelsList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
@@ -45,21 +45,21 @@
             android:orientation="horizontal" >
 
             <Button
-                android:id="@+id/edit_question"
+                android:id="@+id/editModel"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/ordering_button"
                 android:layout_weight="4"
                 android:enabled="false"
-                android:onClick="editQuestion"
+                android:onClick="editModel"
                 android:text="@string/edit_question" />
 
             <ImageButton
-                android:id="@+id/up_question"
+                android:id="@+id/upModel"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/ordering_button"
                 android:layout_weight="1"
                 android:enabled="false"
-                android:onClick="upQuestion"
+                android:onClick="upModel"
                 android:src="@android:drawable/arrow_up_float" />
         </LinearLayout>
 
@@ -69,19 +69,20 @@
             android:orientation="horizontal" >
 
             <Button
+                android:id="@+id/newModel"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/ordering_button"
                 android:layout_weight="4"
-                android:onClick="newQuestion"
+                android:onClick="newModel"
                 android:text="@string/new_question" />
 
             <ImageButton
-                android:id="@+id/down_question"
+                android:id="@+id/downModel"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/ordering_button"
                 android:layout_weight="1"
                 android:enabled="false"
-                android:onClick="downQuestion"
+                android:onClick="downModel"
                 android:src="@android:drawable/arrow_down_float" />
         </LinearLayout>
     </LinearLayout>

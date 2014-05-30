@@ -1,14 +1,13 @@
 package com.example.asdteachingtool.models;
 
 import java.io.File;
-import java.lang.reflect.Field;
 
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.util.Log;
 
 @Table(name = "Cards")
-public class Card extends SecureModel {
+public class Card extends SecureModel implements Sortable {
 
 	private static final String LOG_TAG = "Card";
 
@@ -31,6 +30,19 @@ public class Card extends SecureModel {
 
 	@Column(name = "SoundPath")
 	public String soundPath;
+
+	@Column(name = "Position", notNull = true)
+	public Integer position;
+	
+	@Column(name = "Category")
+	public Integer category;
+
+	@Override
+	public void beforeSave() {
+		if (!isPersisted()) {
+			setPosition(PositionSequence.nextPosition());
+		}
+	}
 
 	public void beforeDelete() {
 		if (soundPath != null && soundPath.length() > 0) {
@@ -62,5 +74,20 @@ public class Card extends SecureModel {
 
 	public void setSoundPath(String soundPath) {
 		this.soundPath = soundPath;
+	}
+
+	@Override
+	public Integer getPosition() {
+		return position;
+	}
+
+	@Override
+	public void setPosition(Integer position) {
+		this.position = position;
+	}
+
+	@Override
+	public String getName() {
+		return getText();
 	}
 }

@@ -8,7 +8,7 @@ import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 
 @Table(name = "Questions")
-public class Question extends SecureModel {
+public class Question extends SecureModel implements Sortable {
 
 	@Column(name = "Title")
 	public String title;
@@ -27,11 +27,7 @@ public class Question extends SecureModel {
 
 	public void beforeSave() {
 		if (!isPersisted()) {
-			setPosition(0);
-			Question last = last();
-			if (last != null) {
-				setPosition(last.getPosition() + 1);
-			}
+			setPosition(PositionSequence.nextPosition());
 		}
 	}
 
@@ -117,10 +113,9 @@ public class Question extends SecureModel {
 		this.position = position;
 	}
 
-	public void changePositions(Question target) {
-		Integer aux = getPosition();
-		setPosition(target.getPosition());
-		target.setPosition(aux);
+	@Override
+	public String getName() {
+		return getTitle();
 	}
 
 }

@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.util.Log;
 
-import com.activeandroid.Cache;
 import com.activeandroid.Model;
 
 public abstract class SecureModel extends Model {
@@ -13,17 +12,17 @@ public abstract class SecureModel extends Model {
 	private static final String LOG_TAG = "SecureModel";
 
 	public void beforeSave() {
-	};
+	}
 
 	public void beforeDelete() {
-	};
+	}
 
 	public void afterSave() {
-	};
+	}
 
 	public void afterDelete() {
-	};
-
+	}
+	
 	public void secureSave() {
 		beforeSave();
 		save();

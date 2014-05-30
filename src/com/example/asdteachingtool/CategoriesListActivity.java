@@ -1,33 +1,50 @@
 package com.example.asdteachingtool;
 
 import android.annotation.TargetApi;
+import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
 
-import com.example.asdteachingtool.components.Sorter;
-import com.example.asdteachingtool.models.Question;
+import com.example.asdteachingtool.models.Category;
 
-public class QuestionsListActivity extends Activity {
+public class CategoriesListActivity extends Activity {
 
-	private Sorter<Question, QuestionFormActivity> sorter;
+	public static final String EXTRA_CATEGORY_ID = "com.example.asdteachingtool.CATEGORY_ID";
+	public static final String EXTRA_CATEGORY_NAME = "com.example.asdteachingtool.CATEGORY_NAME";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		sorter = new Sorter<Question, QuestionFormActivity>(this,
-				Question.class, QuestionFormActivity.class);
+		setContentView(R.layout.activity_categories_list);
+		ViewGroup categoriesList = (ViewGroup) findViewById(R.id.categoriesList);
+		for (Category category : Category.all()) {
+			Button categoryButton = new Button(this);
+			categoryButton.setTag(category);
+			categoryButton.setText(category.getName());
+			categoryButton.setWidth(R.dimen.start_button);
+			categoryButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(v.getContext(), null);
+					Category category = (Category) v.getTag();
+					intent.putExtra(EXTRA_CATEGORY_ID, category.getId());
+					intent.putExtra(EXTRA_CATEGORY_NAME, category.getName());
+					startActivity(intent);
+				}
+			});
+			categoriesList.addView(categoryButton);
+		}
 		// Show the Up button in the action bar.
 		setupActionBar();
-	}
-
-	@Override
-	protected void onStart() {
-		super.onStart();
-		sorter.resume();
 	}
 
 	/**
@@ -43,7 +60,7 @@ public class QuestionsListActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.setup, menu);
+		getMenuInflater().inflate(R.menu.categories_list, menu);
 		return true;
 	}
 

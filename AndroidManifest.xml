@@ -110,6 +110,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.asdteachingtool.StartPecsMenuActivity" />
         </activity>
+        <activity
+            android:name="com.example.asdteachingtool.CategoriesListActivity"
+            android:label="@string/title_activity_categories_list"
+            android:parentActivityName="com.example.asdteachingtool.StartPecsMenuActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.asdteachingtool.StartPecsMenuActivity" />
+        </activity>
+        <activity
+            android:name="com.example.asdteachingtool.PecsListActivity"
+            android:label="@string/title_activity_pecs_list"
+            android:parentActivityName="com.example.asdteachingtool.CategoriesListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.asdteachingtool.CategoriesListActivity" />
+        </activity>
     </application>
 
 </manifest>
