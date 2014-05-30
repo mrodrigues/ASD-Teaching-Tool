@@ -13,7 +13,7 @@ public class Question extends SecureModel {
 	@Column(name = "Title")
 	public String title;
 
-	@Column(name = "Position", notNull = true, unique = true)
+	@Column(name = "Position", notNull = true)
 	public Integer position;
 
 	private Card card;

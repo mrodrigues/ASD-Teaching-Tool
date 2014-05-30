@@ -25,7 +25,7 @@ public class AudioControllerFactory {
 
 			@Override
 			public void onClick(View v) {
-				String output = TempFilesManager.getInstance().createTempFile("audio", ".3gp", context.getCacheDir());
+				String output = TempFilesManager.getInstance().createTempFile("audio", ".3gp", context.getExternalCacheDir());
 				((View) v.getParent()).setTag(output);
 				audioController.record(output);
 				v.setEnabled(false);
