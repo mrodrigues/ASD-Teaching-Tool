@@ -27,7 +27,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
-                    android:text="@string/category_objects" />
+                    android:text="@string/category_subjects" />
 
                 <LinearLayout
                     android:id="@+id/subjectsContainer"
@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
-                    android:text="@string/category_objects" />
+                    android:text="@string/category_verbs" />
 
                 <LinearLayout
                     android:id="@+id/verbsContainer"

@@ -19,7 +19,7 @@
     <string name="confirm_delete_option">Tem certeza de que deseja remover essa opção?</string>
     <string name="new_option">Nova opção</string>
     <string name="pick_intent_picture">Selecione uma imagem ou tire uma foto</string>
-    <string name="title_activity_start_questions_menu">ASD Teaching Tool</string>
+    <string name="title_activity_start_questions_menu">Perguntas e Respostas</string>
     <string name="start_questions">Começar questões</string>
     <string name="edit_questions">Editar questões</string>
     <string name="correct_answer">Correto!</string>
@@ -27,20 +27,20 @@
     <string name="completed_questions">Você completou todas as questões!</string>
     <string name="error_opening_question">Houve um erro ao abrir a questão.</string>
     <string name="title_activity_thermometer">Como você está se sentindo?</string>
-    <string name="title_activity_select_game">Selectione o jogo</string>
+    <string name="title_activity_select_game">Ferramenta para auxílio na aprendizagem e comunicação de crianças autistas</string>
     <string name="start_questions_menu">Perguntas e Respostas</string>
     <string name="start_pecs_menu">PECS</string>
     <string name="title_activity_start_pecs_menu">PECS</string>
-    <string name="start_pecs_training">Treinar PECS</string>
+    <string name="start_pecs_training">Teclado de PECS</string>
     <string name="edit_pecs">Editar PECS</string>
-    <string name="title_activity_pecs">PecsActivity</string>
+    <string name="title_activity_pecs">PECS</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_edit_pecs">EditPecsActivity</string>
-    <string name="title_activity_categories_list">CategoriesListActivity</string>
-    <string name="category_subjects">Sujeitos</string>
-    <string name="category_verbs">Verbos</string>
-    <string name="category_objects">Objetos</string>
-    <string name="title_activity_pecs_list">PecsListActivity</string>
-    <string name="title_activity_card_form">CardFormActivity</string>
+    <string name="title_activity_edit_pecs">Editar PECS</string>
+    <string name="title_activity_categories_list">Categorias de PECS</string>
+    <string name="category_subjects">Quem?</string>
+    <string name="category_verbs">Ação</string>
+    <string name="category_objects">O que?</string>
+    <string name="title_activity_pecs_list">PECS</string>
+    <string name="title_activity_card_form">Editar/Criar cartão</string>
 
 </resources>
