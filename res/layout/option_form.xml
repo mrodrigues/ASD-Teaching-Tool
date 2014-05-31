@@ -5,7 +5,7 @@
     android:layout_marginTop="@dimen/option_form_margin"
     android:orientation="vertical"
     android:padding="@dimen/option_form_margin" >
-    
+
     <CheckBox
         android:id="@+id/optionCorrect"
         android:layout_width="wrap_content"
@@ -36,36 +36,10 @@
             android:text="@string/option_type_text" />
     </RadioGroup>
 
-    <EditText
-        android:id="@+id/optionText"
-        android:layout_width="match_parent"
+    <include
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/option_form_margin"
-        android:hint="@string/option_text"
-        android:padding="@dimen/option_form_margin"
-        android:textSize="25sp" />
-
-    <LinearLayout
-        android:id="@+id/optionPictureContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical" >
-
-        <ImageView
-            android:id="@+id/optionPicture"
-            android:layout_width="@dimen/option_image"
-            android:layout_height="@dimen/option_image"
-            android:src="@android:drawable/picture_frame" />
-
-        <ImageButton
-            android:id="@+id/optionTakePicture"
-            android:layout_width="@dimen/camera_button_width"
-            android:layout_height="@dimen/small_button"
-            android:src="@android:drawable/ic_menu_camera" />
-    </LinearLayout>
-
-    <include layout="@layout/audio_controller" />
+        layout="@layout/card_form" />
 
     <Button
         android:id="@+id/deleteOption"
@@ -82,5 +56,5 @@
         android:layout_height="1dp"
         android:layout_marginTop="20dp"
         android:background="#CCCCCC" />
-    
+
 </LinearLayout>
