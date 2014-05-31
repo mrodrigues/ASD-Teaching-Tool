@@ -19,7 +19,7 @@ public class QuestionsListActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		sorter = new Sorter<Question, QuestionFormActivity>(this,
-				Question.class, QuestionFormActivity.class);
+				Question.class, QuestionFormActivity.class, "all");
 		// Show the Up button in the action bar.
 		setupActionBar();
 	}

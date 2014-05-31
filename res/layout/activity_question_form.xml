@@ -1,87 +1,98 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".QuestionFormActivity" >
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:id="@+id/questionForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            tools:context=".QuestionFormActivity" >
+
+            <EditText
+                android:id="@+id/questionTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/question_title" />
+
+            <ImageView
+                android:id="@+id/questionPicture"
+                android:layout_width="@dimen/question_image"
+                android:layout_height="@dimen/question_image"
+                android:layout_gravity="center"
+                android:src="@android:drawable/picture_frame" />
+
+            <ImageButton
+                android:id="@+id/questionTakePicture"
+                android:layout_width="@dimen/camera_button_width"
+                android:layout_height="@dimen/small_button"
+                android:layout_gravity="center"
+                android:onClick="questionTakePicture"
+                android:src="@android:drawable/ic_menu_camera" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/options_section"
+                android:textSize="30sp" />
+
+            <LinearLayout
+                android:id="@+id/options_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <include layout="@layout/option_form" />
+
+                <include layout="@layout/option_form" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/newOption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@android:drawable/ic_input_add"
+                android:onClick="newOptionView"
+                android:text="@string/new_option" />
+        </LinearLayout>
+    </ScrollView>
 
     <LinearLayout
-        android:id="@+id/questionForm"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context=".QuestionFormActivity" >
-
-        <EditText
-            android:id="@+id/questionTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/question_title" />
-
-        <ImageView
-            android:id="@+id/questionPicture"
-            android:layout_width="@dimen/question_image"
-            android:layout_height="@dimen/question_image"
-            android:layout_gravity="center"
-            android:src="@android:drawable/picture_frame" />
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
 
         <ImageButton
-            android:id="@+id/questionTakePicture"
-            android:layout_width="@dimen/camera_button_width"
-            android:layout_height="@dimen/small_button"
-            android:layout_gravity="center"
-            android:onClick="questionTakePicture"
-            android:src="@android:drawable/ic_menu_camera" />
+            android:id="@+id/deleteQuestion"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:onClick="deleteQuestion"
+            android:src="@android:drawable/ic_menu_delete" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/options_section"
-            android:textSize="30sp" />
-
-        <LinearLayout
-            android:id="@+id/options_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <include layout="@layout/option_form" />
-
-            <include layout="@layout/option_form" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/newOption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@android:drawable/ic_input_add"
-            android:onClick="newOptionView"
-            android:text="@string/new_option" />
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <ImageButton
-                android:id="@+id/deleteQuestion"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:onClick="deleteQuestion"
-                android:src="@android:drawable/ic_menu_delete" />
-
-            <ImageButton
-                android:id="@+id/saveQuestion"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:onClick="saveQuestion"
-                android:src="@android:drawable/ic_menu_save" />
-        </LinearLayout>
+        <ImageButton
+            android:id="@+id/saveQuestion"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:onClick="saveQuestion"
+            android:src="@android:drawable/ic_menu_save" />
     </LinearLayout>
 
-</ScrollView>
+</RelativeLayout>

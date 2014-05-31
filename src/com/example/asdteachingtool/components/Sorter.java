@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RadioButton;
@@ -13,7 +14,8 @@ import com.activeandroid.ActiveAndroid;
 import com.example.asdteachingtool.R;
 import com.example.asdteachingtool.models.Sortable;
 
-public class Sorter<T extends Sortable, U extends Activity> implements OnClickListener {
+public class Sorter<T extends Sortable, U extends Activity> implements
+		OnClickListener {
 
 	public static final String EXTRA_MODEL_ID = "com.example.asdteachingtool.MODEL_ID";
 
@@ -22,6 +24,9 @@ public class Sorter<T extends Sortable, U extends Activity> implements OnClickLi
 	private Integer lastSelectedIndex;
 	private Class<T> modelClass;
 	private Class<U> modelFormActivity;
+	private Bundle extras;
+	private String queryMethod;
+	private Object[] arguments;
 
 	/**
 	 * Creates a model sorter. You <b>must</b> call resume() when your activity
@@ -39,14 +44,20 @@ public class Sorter<T extends Sortable, U extends Activity> implements OnClickLi
 	 * @param modelClass
 	 *            Sortable model to be sorted
 	 * @param modelFormActivity
-	 *            Form to call for creating and editing the model
+	 *            Form activity to call for creating and editing the model
+	 * @param queryMethod
+	 *            Name of the static method that will return the list of models
+	 * @param modelFormActivity
+	 *            Any arguments to be passed to the query method
 	 */
 	public Sorter(Activity activity, Class<T> modelClass,
-			Class<U> modelFormActivity) {
+			Class<U> modelFormActivity, String queryMethod, Object... arguments) {
 		super();
 		this.activity = activity;
 		this.modelClass = modelClass;
 		this.modelFormActivity = modelFormActivity;
+		this.queryMethod = queryMethod;
+		this.arguments = arguments;
 
 		activity.setContentView(R.layout.sorter);
 		modelsList = (RadioGroup) activity.findViewById(R.id.modelsList);
@@ -55,6 +66,10 @@ public class Sorter<T extends Sortable, U extends Activity> implements OnClickLi
 		activity.findViewById(R.id.editModel).setOnClickListener(this);
 		activity.findViewById(R.id.upModel).setOnClickListener(this);
 		activity.findViewById(R.id.downModel).setOnClickListener(this);
+	}
+
+	public void setExtras(Bundle extras) {
+		this.extras = extras;
 	}
 
 	public void resume() {
@@ -69,15 +84,29 @@ public class Sorter<T extends Sortable, U extends Activity> implements OnClickLi
 		final View edit = activity.findViewById(R.id.editModel);
 		List<Sortable> models = null;
 		try {
-			models = (List<Sortable>) modelClass.getMethod("all").invoke(null);
+			Class[] argTypes = null;
+			if (arguments != null) {
+				argTypes = new Class[arguments.length];
+				for (int i = 0; i < arguments.length; i++) {
+					argTypes[i] = arguments[i].getClass();
+				}
+			}
+			models = (List<Sortable>) modelClass.getMethod(queryMethod,
+					argTypes).invoke(null, arguments);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.err.println("=================");
+		System.err.println(models);
+		System.err.println(arguments);
+		System.err.println(arguments[0]);
+		System.err.println(models.size());
+		System.err.println("=================");
 		for (Sortable model : models) {
-			RadioButton questionView = new RadioButton(activity);
-			questionView.setText(model.getName());
-			questionView.setTag(model);
-			questionView.setOnClickListener(new OnClickListener() {
+			RadioButton modelView = new RadioButton(activity);
+			modelView.setText(model.getName());
+			modelView.setTag(model);
+			modelView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					up.setEnabled(true);
@@ -85,7 +114,7 @@ public class Sorter<T extends Sortable, U extends Activity> implements OnClickLi
 					edit.setEnabled(true);
 				}
 			});
-			modelsList.addView(questionView);
+			modelsList.addView(modelView);
 		}
 		if (lastSelectedIndex != null) {
 			((RadioButton) modelsList.getChildAt(lastSelectedIndex))
@@ -111,17 +140,25 @@ public class Sorter<T extends Sortable, U extends Activity> implements OnClickLi
 	}
 
 	public void newModel(View view) {
-		activity.startActivity(new Intent(activity, modelFormActivity));
+		activity.startActivity(createIntent());
 	}
 
 	public void editModel(View v) {
-		Intent intent = new Intent(v.getContext(), modelFormActivity);
-		View selected = selectedQuestion();
+		Intent intent = new Intent(createIntent());
+		View selected = selectedModel();
 		if (selected != null) {
 			intent.putExtra(EXTRA_MODEL_ID,
 					((Sortable) selected.getTag()).getId());
 			activity.startActivity(intent);
 		}
+	}
+
+	private Intent createIntent() {
+		Intent intent = new Intent(activity, modelFormActivity);
+		if (extras != null) {
+			intent.putExtras(extras);
+		}
+		return intent;
 	}
 
 	public void upModel(View v) {
@@ -160,7 +197,7 @@ public class Sorter<T extends Sortable, U extends Activity> implements OnClickLi
 		update();
 	}
 
-	private RadioButton selectedQuestion() {
+	private RadioButton selectedModel() {
 		int id = modelsList.getCheckedRadioButtonId();
 		if (id < 0) {
 			return null;
@@ -170,7 +207,7 @@ public class Sorter<T extends Sortable, U extends Activity> implements OnClickLi
 	}
 
 	private int selectedIndex() {
-		RadioButton selected = selectedQuestion();
+		RadioButton selected = selectedModel();
 		if (selected != null) {
 			return modelsList.indexOfChild(selected);
 		}

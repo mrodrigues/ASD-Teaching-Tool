@@ -1,28 +1,45 @@
 package com.example.asdteachingtool;
 
-import android.os.Bundle;
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v4.app.NavUtils;
-import android.annotation.TargetApi;
-import android.os.Build;
 
-public class PecsListActivity extends Activity {
+import com.example.asdteachingtool.components.Sorter;
+import com.example.asdteachingtool.models.Card;
+
+public class CardsListActivity extends Activity {
 
 	private Integer categoryId;
+	private Sorter<Card, CardFormActivity> sorter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_pecs_list);
 		setTitle(getIntent().getStringExtra(
 				CategoriesListActivity.EXTRA_CATEGORY_NAME));
 		categoryId = getIntent().getIntExtra(
 				CategoriesListActivity.EXTRA_CATEGORY_ID, -1);
-		
+		System.err.println("==================");
+		System.err.println("onCreate");
+		System.err.println("==================");
+		sorter = new Sorter<Card, CardFormActivity>(this, Card.class,
+				CardFormActivity.class, "byCategory", categoryId);
+		Bundle extras = new Bundle();
+		extras.putInt(CardFormActivity.EXTRAS_CATEGORY_ID, categoryId);
+		sorter.setExtras(extras);
+
 		// Show the Up button in the action bar.
 		setupActionBar();
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		sorter.resume();
 	}
 
 	/**

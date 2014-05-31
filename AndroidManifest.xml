@@ -71,11 +71,11 @@
             android:name="com.example.asdteachingtool.ThermometerActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_thermometer"
-            android:parentActivityName="com.example.asdteachingtool.QuestionActivity"
+            android:parentActivityName="com.example.asdteachingtool.SelectGameActivity"
             android:screenOrientation="landscape" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.asdteachingtool.QuestionActivity" />
+                android:value="com.example.asdteachingtool.SelectGameActivity" />
         </activity>
         <activity
             android:name="com.example.asdteachingtool.SelectGameActivity"
@@ -119,12 +119,20 @@
                 android:value="com.example.asdteachingtool.StartPecsMenuActivity" />
         </activity>
         <activity
-            android:name="com.example.asdteachingtool.PecsListActivity"
+            android:name="com.example.asdteachingtool.CardsListActivity"
             android:label="@string/title_activity_pecs_list"
             android:parentActivityName="com.example.asdteachingtool.CategoriesListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.asdteachingtool.CategoriesListActivity" />
+        </activity>
+        <activity
+            android:name="com.example.asdteachingtool.CardFormActivity"
+            android:label="@string/title_activity_card_form"
+            android:parentActivityName="com.example.asdteachingtool.CardsListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.asdteachingtool.CardsListActivity" />
         </activity>
     </application>
 

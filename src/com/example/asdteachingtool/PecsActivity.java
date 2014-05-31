@@ -13,7 +13,7 @@ public class PecsActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_pecs);
+		//setContentView(R.layout.activity_pecs);
 		// Show the Up button in the action bar.
 		setupActionBar();
 	}

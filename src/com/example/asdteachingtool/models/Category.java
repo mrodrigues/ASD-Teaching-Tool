@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.res.Resources;
 
 import com.example.asdteachingtool.R;
+import com.example.asdteachingtool.SelectGameActivity;
 
 public class Category {
 
@@ -32,7 +33,9 @@ public class Category {
 	private static Category verbs;
 	private static Category objects;
 
-	private static Resources t = new Activity().getResources();
+	private static String t(int id) {
+		return SelectGameActivity.getContext().getString(id);
+	}
 
 	public static List<Category> all() {
 		if (categories == null) {
@@ -46,21 +49,21 @@ public class Category {
 
 	public static Category getSubjects() {
 		if (subjects == null) {
-			subjects = new Category(t.getString(R.string.category_subjects), 0);
+			subjects = new Category(t(R.string.category_subjects), 0);
 		}
 		return subjects;
 	}
 
 	public static Category getVerbs() {
 		if (verbs == null) {
-			verbs = new Category(t.getString(R.string.category_verbs), 1);
+			verbs = new Category(t(R.string.category_verbs), 1);
 		}
 		return verbs;
 	}
 
 	public static Category getObjects() {
 		if (objects == null) {
-			objects = new Category(t.getString(R.string.category_objects), 2);
+			objects = new Category(t(R.string.category_objects), 2);
 		}
 		return objects;
 	}

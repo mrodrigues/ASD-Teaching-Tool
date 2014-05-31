@@ -1,7 +1,6 @@
 package com.example.asdteachingtool;
 
 import android.annotation.TargetApi;
-import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
@@ -34,7 +33,7 @@ public class CategoriesListActivity extends Activity {
 			categoryButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Intent intent = new Intent(v.getContext(), null);
+					Intent intent = new Intent(v.getContext(), CardsListActivity.class);
 					Category category = (Category) v.getTag();
 					intent.putExtra(EXTRA_CATEGORY_ID, category.getId());
 					intent.putExtra(EXTRA_CATEGORY_NAME, category.getName());

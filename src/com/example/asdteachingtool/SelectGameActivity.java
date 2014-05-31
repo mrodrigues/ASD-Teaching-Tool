@@ -1,19 +1,21 @@
 package com.example.asdteachingtool;
 
-import com.example.asdteachingtool.models.Question;
-
-import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 
 public class SelectGameActivity extends Activity {
+	
+	private static Context initialContext;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_select_game);
+		initialContext = this;
 	}
 
 	@Override
@@ -29,5 +31,9 @@ public class SelectGameActivity extends Activity {
 	
 	public void startPecsMenu(View v) {
 		startActivity(new Intent(this, StartPecsMenuActivity.class));
+	}
+	
+	public static Context getContext() {
+		return initialContext;
 	}
 }

@@ -11,7 +11,7 @@ import com.example.asdteachingtool.components.TempFilesManager;
 import com.example.asdteachingtool.listeners.PlayerListener;
 
 public class AudioControllerFactory {
-	
+
 	private AudioController audioController;
 	private Context context;
 
@@ -25,7 +25,10 @@ public class AudioControllerFactory {
 
 			@Override
 			public void onClick(View v) {
-				String output = TempFilesManager.getInstance().createTempFile("audio", ".3gp", context.getExternalCacheDir());
+				String output = TempFilesManager
+						.getInstance()
+						.createTempFile("audio", ".3gp",
+								context.getExternalCacheDir()).getPath();
 				((View) v.getParent()).setTag(output);
 				audioController.record(output);
 				v.setEnabled(false);
@@ -42,17 +45,17 @@ public class AudioControllerFactory {
 			public void onClick(View v) {
 				audioController.stop();
 				v.setEnabled(false);
-				((ViewGroup) v.getParent()).findViewById(
-						R.id.audioRecord).setEnabled(true);
-				((ViewGroup) v.getParent()).findViewById(
-						R.id.audioPlay).setEnabled(true);
+				((ViewGroup) v.getParent()).findViewById(R.id.audioRecord)
+						.setEnabled(true);
+				((ViewGroup) v.getParent()).findViewById(R.id.audioPlay)
+						.setEnabled(true);
 			}
 		};
 	}
 
 	public OnClickListener onPlay() {
 		return new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				audioController.addPlayObserver(new PlayerListener(v) {

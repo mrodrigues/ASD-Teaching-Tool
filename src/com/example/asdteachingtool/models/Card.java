@@ -1,9 +1,12 @@
 package com.example.asdteachingtool.models;
 
 import java.io.File;
+import java.util.List;
 
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.From;
+import com.activeandroid.query.Select;
 import com.activeandroid.util.Log;
 
 @Table(name = "Cards")
@@ -33,7 +36,7 @@ public class Card extends SecureModel implements Sortable {
 
 	@Column(name = "Position", notNull = true)
 	public Integer position;
-	
+
 	@Column(name = "Category")
 	public Integer category;
 
@@ -50,6 +53,20 @@ public class Card extends SecureModel implements Sortable {
 				Log.e(LOG_TAG, "File not deleted: " + soundPath);
 			}
 		}
+	}
+
+	public static List<Card> byCategory(Integer categoryId) {
+		return new Select().from(Card.class)
+				.where("Category = ?", categoryId)
+				.orderBy("Position ASC").execute();
+	}
+	
+	public Boolean hasText() {
+		return text != null && text.length() > 0;
+	}
+
+	public Boolean hasSound() {
+		return soundPath != null && soundPath.length() > 0;
 	}
 
 	public String getText() {
@@ -89,5 +106,13 @@ public class Card extends SecureModel implements Sortable {
 	@Override
 	public String getName() {
 		return getText();
+	}
+
+	public Integer getCategory() {
+		return category;
+	}
+
+	public void setCategory(Integer category) {
+		this.category = category;
 	}
 }

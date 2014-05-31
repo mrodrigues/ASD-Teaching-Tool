@@ -36,10 +36,7 @@
             android:text="@string/option_type_text" />
     </RadioGroup>
 
-    <include
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        layout="@layout/card_form" />
+    <include layout="@layout/card_form" />
 
     <Button
         android:id="@+id/deleteOption"

@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".QuestionsListActivity" >
+    tools:context=".Sorter" >
 
     <ScrollView
         android:layout_width="match_parent"
@@ -51,7 +51,7 @@
                 android:layout_weight="4"
                 android:enabled="false"
                 android:onClick="editModel"
-                android:text="@string/edit_question" />
+                android:text="@string/edit_model" />
 
             <ImageButton
                 android:id="@+id/upModel"
@@ -74,7 +74,7 @@
                 android:layout_height="@dimen/ordering_button"
                 android:layout_weight="4"
                 android:onClick="newModel"
-                android:text="@string/new_question" />
+                android:text="@string/new_model" />
 
             <ImageButton
                 android:id="@+id/downModel"

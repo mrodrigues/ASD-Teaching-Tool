@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
 
     <EditText
-        android:id="@+id/optionText"
+        android:id="@+id/cardText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/option_form_margin"
@@ -11,20 +14,20 @@
         android:textSize="25sp" />
 
     <LinearLayout
-        android:id="@+id/optionPictureContainer"
+        android:id="@+id/cardPictureContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical" >
 
         <ImageView
-            android:id="@+id/optionPicture"
+            android:id="@+id/cardPicture"
             android:layout_width="@dimen/option_image"
             android:layout_height="@dimen/option_image"
             android:src="@android:drawable/picture_frame" />
 
         <ImageButton
-            android:id="@+id/optionTakePicture"
+            android:id="@+id/cardTakePicture"
             android:layout_width="@dimen/camera_button_width"
             android:layout_height="@dimen/small_button"
             android:src="@android:drawable/ic_menu_camera" />
@@ -32,4 +35,4 @@
 
     <include layout="@layout/audio_controller" />
 
-</merge>
+</LinearLayout>

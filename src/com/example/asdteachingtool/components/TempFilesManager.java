@@ -8,35 +8,46 @@ import java.util.List;
 import android.util.Log;
 
 public class TempFilesManager {
-	
+
 	private static final String LOG_TAG = "TempFilesManager";
 	private List<File> tempFiles;
-	
+
 	private static TempFilesManager instance;
-	
+
 	public static TempFilesManager getInstance() {
 		if (instance == null) {
 			instance = new TempFilesManager();
 		}
 		return instance;
 	}
-	
+
 	public TempFilesManager() {
 		super();
 		this.tempFiles = new ArrayList<File>();
 	}
 
-	public String createTempFile(String prefix, String suffix, File directory) {
+	public File createTempFile(String prefix, String suffix, File directory) {
 		try {
 			File tempFile = File.createTempFile(prefix, suffix, directory);
 			tempFiles.add(tempFile);
-			return tempFile.getPath();
+			return tempFile;
 		} catch (IOException e) {
 			Log.e(LOG_TAG, "IOException");
 			return null;
 		}
 	}
-	
+
+	public static File createUnmanagedTempFile(String prefix, String suffix,
+			File directory) {
+		try {
+			File tempFile = File.createTempFile(prefix, suffix, directory);
+			return tempFile;
+		} catch (IOException e) {
+			Log.e(LOG_TAG, "IOException");
+			return null;
+		}
+	}
+
 	public Boolean clean() {
 		Boolean allClean = true;
 		for (File tempFile : tempFiles) {

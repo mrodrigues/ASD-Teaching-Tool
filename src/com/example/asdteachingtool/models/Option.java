@@ -39,11 +39,11 @@ public class Option extends SecureModel {
 	}
 
 	public Boolean hasText() {
-		return card().text != null && card().text.length() > 0;
+		return card().hasText();
 	}
 
 	public Boolean hasSound() {
-		return card().soundPath != null && card().soundPath.length() > 0;
+		return card().hasSound();
 	}
 
 	public String getText() {
@@ -69,4 +69,5 @@ public class Option extends SecureModel {
 	public void setSoundPath(String soundPath) {
 		card().setSoundPath(soundPath);
 	}
+
 }
