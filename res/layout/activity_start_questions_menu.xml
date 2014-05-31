@@ -13,13 +13,13 @@
     <Button
         android:id="@+id/startQuestions"
         android:layout_width="@dimen/start_button"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/button_height"
         android:onClick="startQuestions"
         android:text="@string/start_questions" />
     
     <Button
         android:layout_width="@dimen/start_button"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/button_height"
         android:text="@string/edit_questions"
         android:drawableLeft="@android:drawable/ic_menu_edit"
         android:onClick="editQuestions" />

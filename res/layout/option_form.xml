@@ -41,7 +41,7 @@
     <Button
         android:id="@+id/deleteOption"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/button_height"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/option_form_margin"
         android:drawableLeft="@android:drawable/ic_menu_delete"

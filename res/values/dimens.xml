@@ -13,5 +13,9 @@
     <dimen name="expression_padding">4dp</dimen>
     <dimen name="thermometer_padding">20dp</dimen>
     <dimen name="ordering_button">50dp</dimen>
+    <dimen name="button_height">80dp</dimen>
     <dimen name="card_border">10dp</dimen>
+    <dimen name="card_image">100dp</dimen>
+    <dimen name="pecs_keyboard_section">10dp</dimen>
+
 </resources>

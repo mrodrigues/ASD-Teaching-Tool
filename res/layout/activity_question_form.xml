@@ -65,7 +65,7 @@
             <Button
                 android:id="@+id/newOption"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/button_height"
                 android:drawableLeft="@android:drawable/ic_input_add"
                 android:onClick="newOptionView"
                 android:text="@string/new_option" />

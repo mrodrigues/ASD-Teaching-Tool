@@ -1,55 +1,71 @@
 package com.example.asdteachingtool;
 
-import android.os.Bundle;
+import java.util.List;
+
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v4.app.NavUtils;
-import android.annotation.TargetApi;
-import android.os.Build;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
+
+import com.example.asdteachingtool.components.AudioController;
+import com.example.asdteachingtool.factories.BitmapFactory;
+import com.example.asdteachingtool.models.Card;
+import com.example.asdteachingtool.models.Category;
 
 public class PecsActivity extends Activity {
+
+	private AudioController audioController;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//setContentView(R.layout.activity_pecs);
-		// Show the Up button in the action bar.
-		setupActionBar();
+
+		this.audioController = new AudioController(this);
+
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		setContentView(R.layout.pecs_keyboard);
+		ViewGroup subjectsContainer = (ViewGroup) findViewById(R.id.subjectsContainer);
+		List<Card> subjects = Card.byCategory(Category.getSubjects().getId());
+		addCardsToContainer(subjects, subjectsContainer);
+
+		ViewGroup verbsContainer = (ViewGroup) findViewById(R.id.verbsContainer);
+		List<Card> verbs = Card.byCategory(Category.getVerbs().getId());
+		addCardsToContainer(verbs, verbsContainer);
+
+		ViewGroup objectsContainer = (ViewGroup) findViewById(R.id.objectsContainer);
+		List<Card> objects = Card.byCategory(Category.getObjects().getId());
+		addCardsToContainer(objects, objectsContainer);
 	}
 
-	/**
-	 * Set up the {@link android.app.ActionBar}, if the API is available.
-	 */
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	private void setupActionBar() {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			getActionBar().setDisplayHomeAsUpEnabled(true);
+	private void addCardsToContainer(List<Card> cards, ViewGroup container) {
+		container.removeAllViews();
+		for (Card card : cards) {
+			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			ImageView v = (ImageView) inflater.inflate(R.layout.card, null);
+			int w = (int) getResources().getDimension(R.dimen.card_image);
+			v.setImageBitmap(BitmapFactory.decodeScaledByteArray(
+					card.getPicture(), w, w));
+			v.setTag(card);
+			container.addView(v);
 		}
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.pecs, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. Use NavUtils to allow users
-			// to navigate up one level in the application structure. For
-			// more details, see the Navigation pattern on Android Design:
-			//
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
+	public void selectCard(View v) {
+		Card card = (Card) v.getTag();
+		audioController.play(card.getSoundPath());
 	}
 
 }

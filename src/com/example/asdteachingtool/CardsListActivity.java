@@ -23,9 +23,6 @@ public class CardsListActivity extends Activity {
 				CategoriesListActivity.EXTRA_CATEGORY_NAME));
 		categoryId = getIntent().getIntExtra(
 				CategoriesListActivity.EXTRA_CATEGORY_ID, -1);
-		System.err.println("==================");
-		System.err.println("onCreate");
-		System.err.println("==================");
 		sorter = new Sorter<Card, CardFormActivity>(this, Card.class,
 				CardFormActivity.class, "byCategory", categoryId);
 		Bundle extras = new Bundle();

@@ -19,13 +19,16 @@ public final class R {
          */
         public static final int activity_horizontal_margin=0x7f070000;
         public static final int activity_vertical_margin=0x7f070001;
+        public static final int button_height=0x7f07000c;
         public static final int camera_button_width=0x7f070003;
-        public static final int card_border=0x7f07000c;
+        public static final int card_border=0x7f07000d;
+        public static final int card_image=0x7f07000e;
         public static final int expression_padding=0x7f070009;
         public static final int option_form_margin=0x7f070006;
         public static final int option_image=0x7f070004;
         public static final int option_margin=0x7f070005;
         public static final int ordering_button=0x7f07000b;
+        public static final int pecs_keyboard_section=0x7f07000f;
         public static final int question_image=0x7f070007;
         public static final int small_button=0x7f070002;
         public static final int start_button=0x7f070008;
@@ -48,7 +51,7 @@ public final class R {
         public static final int selector_crop_button=0x7f02000d;
     }
     public static final class id {
-        public static final int action_settings=0x7f090025;
+        public static final int action_settings=0x7f090028;
         public static final int audioController=0x7f09000c;
         public static final int audioPlay=0x7f09000f;
         public static final int audioRecord=0x7f09000d;
@@ -62,12 +65,13 @@ public final class R {
         public static final int deleteOption=0x7f09001f;
         public static final int deleteQuestion=0x7f090009;
         public static final int discard=0x7f090015;
-        public static final int downModel=0x7f090024;
-        public static final int editModel=0x7f090021;
+        public static final int downModel=0x7f090027;
+        public static final int editModel=0x7f090024;
         public static final int image=0x7f090014;
-        public static final int modelsList=0x7f090020;
-        public static final int newModel=0x7f090023;
+        public static final int modelsList=0x7f090023;
+        public static final int newModel=0x7f090026;
         public static final int newOption=0x7f090008;
+        public static final int objectsContainer=0x7f090022;
         public static final int optionCorrect=0x7f09001b;
         public static final int optionPictureButton=0x7f09001a;
         public static final int optionTextButton=0x7f090019;
@@ -85,25 +89,28 @@ public final class R {
         public static final int saveCard=0x7f090001;
         public static final int saveQuestion=0x7f09000a;
         public static final int startQuestions=0x7f09000b;
-        public static final int upModel=0x7f090022;
+        public static final int subjectsContainer=0x7f090020;
+        public static final int upModel=0x7f090025;
+        public static final int verbsContainer=0x7f090021;
     }
     public static final class layout {
         public static final int activity_card_form=0x7f030000;
         public static final int activity_categories_list=0x7f030001;
-        public static final int activity_edit_pecs=0x7f030002;
-        public static final int activity_question=0x7f030003;
-        public static final int activity_question_form=0x7f030004;
-        public static final int activity_select_game=0x7f030005;
-        public static final int activity_start_pecs_menu=0x7f030006;
-        public static final int activity_start_questions_menu=0x7f030007;
-        public static final int activity_thermometer=0x7f030008;
-        public static final int audio_controller=0x7f030009;
+        public static final int activity_question=0x7f030002;
+        public static final int activity_question_form=0x7f030003;
+        public static final int activity_select_game=0x7f030004;
+        public static final int activity_start_pecs_menu=0x7f030005;
+        public static final int activity_start_questions_menu=0x7f030006;
+        public static final int activity_thermometer=0x7f030007;
+        public static final int audio_controller=0x7f030008;
+        public static final int card=0x7f030009;
         public static final int card_form=0x7f03000a;
         public static final int cropimage=0x7f03000b;
         public static final int main=0x7f03000c;
         public static final int option=0x7f03000d;
         public static final int option_form=0x7f03000e;
-        public static final int sorter=0x7f03000f;
+        public static final int pecs_keyboard=0x7f03000f;
+        public static final int sorter=0x7f030010;
     }
     public static final class menu {
         public static final int card_form=0x7f080000;

@@ -12,13 +12,13 @@
 
     <Button
         android:layout_width="@dimen/start_button"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/button_height"
         android:onClick="startPecsTraining"
         android:text="@string/start_pecs_training" />
     
     <Button
         android:layout_width="@dimen/start_button"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/button_height"
         android:text="@string/edit_pecs"
         android:drawableLeft="@android:drawable/ic_menu_edit"
         android:onClick="editPecs" />

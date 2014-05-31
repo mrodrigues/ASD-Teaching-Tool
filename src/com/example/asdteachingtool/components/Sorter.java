@@ -96,12 +96,6 @@ public class Sorter<T extends Sortable, U extends Activity> implements
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.err.println("=================");
-		System.err.println(models);
-		System.err.println(arguments);
-		System.err.println(arguments[0]);
-		System.err.println(models.size());
-		System.err.println("=================");
 		for (Sortable model : models) {
 			RadioButton modelView = new RadioButton(activity);
 			modelView.setText(model.getName());

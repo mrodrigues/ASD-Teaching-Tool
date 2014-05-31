@@ -29,11 +29,15 @@ public class CategoriesListActivity extends Activity {
 			Button categoryButton = new Button(this);
 			categoryButton.setTag(category);
 			categoryButton.setText(category.getName());
-			categoryButton.setWidth(R.dimen.start_button);
+			categoryButton.setWidth((int) getResources().getDimension(
+					R.dimen.start_button));
+			categoryButton.setHeight((int) getResources().getDimension(
+					R.dimen.button_height));
 			categoryButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Intent intent = new Intent(v.getContext(), CardsListActivity.class);
+					Intent intent = new Intent(v.getContext(),
+							CardsListActivity.class);
 					Category category = (Category) v.getTag();
 					intent.putExtra(EXTRA_CATEGORY_ID, category.getId());
 					intent.putExtra(EXTRA_CATEGORY_NAME, category.getName());

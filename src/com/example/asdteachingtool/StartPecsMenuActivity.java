@@ -56,10 +56,10 @@ public class StartPecsMenuActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void startPecsTraning(View v) {
-		startActivity(new Intent(this, QuestionsListActivity.class));
+	public void startPecsTraining(View v) {
+		startActivity(new Intent(this, PecsActivity.class));
 	}
-	
+
 	public void editPecs(View v) {
 		startActivity(new Intent(this, CategoriesListActivity.class));
 	}

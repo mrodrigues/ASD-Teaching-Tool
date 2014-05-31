@@ -96,16 +96,10 @@
         </activity>
         <activity
             android:name="com.example.asdteachingtool.PecsActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_pecs"
-            android:parentActivityName="com.example.asdteachingtool.SelectGameActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.asdteachingtool.SelectGameActivity" />
-        </activity>
-        <activity
-            android:name="com.example.asdteachingtool.EditPecsActivity"
-            android:label="@string/title_activity_edit_pecs"
-            android:parentActivityName="com.example.asdteachingtool.StartPecsMenuActivity" >
+            android:parentActivityName="com.example.asdteachingtool.StartPecsMenuActivity"
+            android:screenOrientation="landscape" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.asdteachingtool.StartPecsMenuActivity" />

@@ -10,4 +10,13 @@ public class BitmapFactory extends android.graphics.BitmapFactory {
 		}
 		return null;
 	}
+
+	public static Bitmap decodeScaledByteArray(byte[] data, int width,
+			int height) {
+		if (data != null) {
+			return Bitmap.createScaledBitmap(decodeByteArray(data), width, height,
+					true);
+		}
+		return null;
+	}
 }
