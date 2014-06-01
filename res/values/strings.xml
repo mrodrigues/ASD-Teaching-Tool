@@ -8,7 +8,7 @@
     <string name="new_model">Criar novo(a)</string>
     <string name="edit_model">Editar</string>
     <string name="question_title">Título (não será mostrado para a criança)</string>
-    <string name="option_text">Opção</string>
+    <string name="card_text">Texto</string>
     <string name="option_correct">Opção correta?</string>
     <string name="options_section">Opções</string>
     <string name="option_type_text">Texto</string>

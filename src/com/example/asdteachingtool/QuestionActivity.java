@@ -93,6 +93,13 @@ public class QuestionActivity extends Activity {
 			newOptionView(option);
 		}
 	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		audioController.play(question.getSoundPath());
+	}
 
 	private void newOptionView(Option option) {
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);

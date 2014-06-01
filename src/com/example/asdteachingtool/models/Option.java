@@ -1,7 +1,5 @@
 package com.example.asdteachingtool.models;
 
-import java.util.List;
-
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
@@ -27,7 +25,7 @@ public class Option extends SecureModel {
 		card().secureSave();
 	}
 
-	private Card card() {
+	public Card card() {
 		if (card == null) {
 			card = first(Card.class);
 		}

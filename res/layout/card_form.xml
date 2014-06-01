@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/option_form_margin"
-        android:hint="@string/option_text"
+        android:hint="@string/card_text"
         android:padding="@dimen/option_form_margin"
         android:textSize="25sp" />
 

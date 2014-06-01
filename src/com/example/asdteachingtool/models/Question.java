@@ -36,7 +36,7 @@ public class Question extends SecureModel implements Sortable {
 		card().secureSave();
 	}
 
-	private Card card() {
+	public Card card() {
 		if (card == null) {
 			card = first(Card.class);
 		}
@@ -97,14 +97,6 @@ public class Question extends SecureModel implements Sortable {
 		card().setSoundPath(soundPath);
 	}
 
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
 	public Integer getPosition() {
 		return position;
 	}
@@ -115,7 +107,7 @@ public class Question extends SecureModel implements Sortable {
 
 	@Override
 	public String getName() {
-		return getTitle();
+		return getText();
 	}
 
 }

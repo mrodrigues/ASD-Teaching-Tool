@@ -32,6 +32,7 @@ import com.example.asdteachingtool.components.Sorter;
 import com.example.asdteachingtool.components.TempFilesManager;
 import com.example.asdteachingtool.factories.AudioControllerFactory;
 import com.example.asdteachingtool.methodobjects.ReceivePicture;
+import com.example.asdteachingtool.models.Card;
 import com.example.asdteachingtool.models.Option;
 import com.example.asdteachingtool.models.Question;
 import com.example.asdteachingtool.utils.FileUtils;
@@ -45,8 +46,6 @@ public class QuestionFormActivity extends Activity {
 	private static final int REQUEST_CODE_TAKE_PICTURE = 0;
 	private static final int REQUEST_CODE_CROP_IMAGE = 1;
 
-	private EditText questionTitleTextView;
-	private ImageView questionThumbnail;
 	private ViewGroup optionsContainer;
 
 	private ReceivePicture receivePicture;
@@ -62,20 +61,17 @@ public class QuestionFormActivity extends Activity {
 		audioControllerFactory = new AudioControllerFactory(this);
 
 		setContentView(R.layout.activity_question_form);
-		questionTitleTextView = (EditText) findViewById(R.id.questionTitle);
-		questionThumbnail = (ImageView) findViewById(R.id.questionPicture);
 		optionsContainer = (ViewGroup) findViewById(R.id.options_container);
 		optionsContainer.removeAllViews();
 
 		Long questionId = getIntent().getLongExtra(Sorter.EXTRA_MODEL_ID, -1);
 		if (questionId == -1) {
 			this.question = new Question();
-			((ViewGroup) findViewById(R.id.questionForm))
-					.removeView(findViewById(R.id.deleteQuestion));
+			findViewById(R.id.deleteQuestion).setVisibility(View.GONE);
 		} else {
 			ActiveAndroid.clearCache();
 			this.question = Question.load(Question.class, questionId);
-			setTitle(getString(R.string.edit_model) + " " + question.getTitle());
+			setTitle(getString(R.string.edit_model) + " " + question.getText());
 		}
 		updateView();
 
@@ -84,8 +80,7 @@ public class QuestionFormActivity extends Activity {
 	}
 
 	private void updateView() {
-		questionTitleTextView.setText(question.getTitle());
-		new ReceivePicture(questionThumbnail).receive(question.getPicture());
+		populateCardView(question.card(), findViewById(R.id.questionForm));
 
 		for (Option option : question.options()) {
 			newOptionView(option);
@@ -124,11 +119,6 @@ public class QuestionFormActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	public void questionTakePicture(View v) {
-		receivePicture = new ReceivePicture(questionThumbnail);
-		takePicture();
 	}
 
 	public void takePicture() {
@@ -210,8 +200,7 @@ public class QuestionFormActivity extends Activity {
 	public void updateQuestion() {
 		ActiveAndroid.beginTransaction();
 		try {
-			question.setTitle(questionTitleTextView.getText().toString());
-			question.setPicture((byte[]) questionThumbnail.getTag());
+			updateCard(question.card(), findViewById(R.id.questionForm));
 			question.secureSave();
 
 			deleteOptions();
@@ -224,32 +213,31 @@ public class QuestionFormActivity extends Activity {
 				option.question = question;
 				option.correct = ((CheckBox) optionView
 						.findViewById(R.id.optionCorrect)).isChecked();
-				EditText optionText = (EditText) optionView
-						.findViewById(R.id.cardText);
-				if (optionText.getVisibility() == View.VISIBLE) {
-					option.setText(optionText.getText().toString());
-				}
-				if (optionView.findViewById(R.id.cardPictureContainer)
-						.getVisibility() == View.VISIBLE) {
-					option.setPicture((byte[]) optionView.findViewById(
-							R.id.cardPicture).getTag());
-				}
-				String path = (String) optionView.findViewById(
-						R.id.audioController).getTag();
-				if (path != null) {
-					File tempSoundFile = new File(path);
-					File soundFile = TempFilesManager.createUnmanagedTempFile(
-							"audio", ".3gp",
-							Environment.getExternalStorageDirectory());
-					FileUtils.copyFile(tempSoundFile, soundFile);
-					option.setSoundPath(soundFile.getPath());
-				}
+				updateCard(option.card(), optionView);
 				option.secureSave();
 			}
 
 			ActiveAndroid.setTransactionSuccessful();
 		} finally {
 			ActiveAndroid.endTransaction();
+		}
+	}
+
+	private void updateCard(Card card, View v) {
+		EditText cardText = (EditText) v.findViewById(R.id.cardText);
+		if (cardText.getVisibility() == View.VISIBLE) {
+			card.setText(cardText.getText().toString());
+		}
+		if (v.findViewById(R.id.cardPictureContainer).getVisibility() == View.VISIBLE) {
+			card.setPicture((byte[]) v.findViewById(R.id.cardPicture).getTag());
+		}
+		String path = (String) v.findViewById(R.id.audioController).getTag();
+		if (path != null) {
+			File tempSoundFile = new File(path);
+			File soundFile = TempFilesManager.createUnmanagedTempFile("audio",
+					".3gp", Environment.getExternalStorageDirectory());
+			FileUtils.copyFile(tempSoundFile, soundFile);
+			card.setSoundPath(soundFile.getPath());
 		}
 	}
 
@@ -324,8 +312,17 @@ public class QuestionFormActivity extends Activity {
 		((EditText) v.findViewById(R.id.cardText)).setText(option.getText());
 		((CheckBox) v.findViewById(R.id.optionCorrect)).setChecked(option
 				.isCorrect());
+
+		int optionType = option.hasText() ? R.id.optionTypeText
+				: R.id.optionTypePicture;
+		((RadioButton) v.findViewById(optionType)).setChecked(true);
+		selectOptionType((RadioGroup) v.findViewById(R.id.optionTypeContainer));
+		populateCardView(option.card(), v);
+	}
+
+	private void populateCardView(Card card, View v) {
 		new ReceivePicture((ImageView) v.findViewById(R.id.cardPicture))
-				.receive(option.getPicture());
+				.receive(card.getPicture());
 		v.findViewById(R.id.cardTakePicture).setOnClickListener(
 				new OnClickListener() {
 					@Override
@@ -337,18 +334,11 @@ public class QuestionFormActivity extends Activity {
 					}
 				});
 
-		int optionType = option.hasText() ? R.id.optionTypeText
-				: R.id.optionTypePicture;
-		((RadioButton) v.findViewById(optionType)).setChecked(true);
-
-		selectOptionType((RadioGroup) v.findViewById(R.id.optionTypeContainer));
-
-		if (option.hasSound()) {
+		if (card.hasSound()) {
 			String sound = TempFilesManager.getInstance()
 					.createTempFile("audio", ".3pg", getExternalCacheDir())
 					.getPath();
-			FileUtils
-					.copyFile(new File(option.getSoundPath()), new File(sound));
+			FileUtils.copyFile(new File(card.getSoundPath()), new File(sound));
 			v.findViewById(R.id.audioController).setTag(sound);
 		}
 
@@ -360,7 +350,7 @@ public class QuestionFormActivity extends Activity {
 		stop.setOnClickListener(audioControllerFactory.onStop());
 
 		View play = v.findViewById(R.id.audioPlay);
-		if (!option.hasSound()) {
+		if (!card.hasSound()) {
 			play.setEnabled(false);
 		}
 		play.setOnClickListener(audioControllerFactory.onPlay());
