@@ -309,7 +309,6 @@ public class QuestionFormActivity extends Activity {
 	}
 
 	private void populateOptionView(Option option, ViewGroup v) {
-		((EditText) v.findViewById(R.id.cardText)).setText(option.getText());
 		((CheckBox) v.findViewById(R.id.optionCorrect)).setChecked(option
 				.isCorrect());
 
@@ -321,6 +320,7 @@ public class QuestionFormActivity extends Activity {
 	}
 
 	private void populateCardView(Card card, View v) {
+		((EditText) v.findViewById(R.id.cardText)).setText(card.getText());
 		new ReceivePicture((ImageView) v.findViewById(R.id.cardPicture))
 				.receive(card.getPicture());
 		v.findViewById(R.id.cardTakePicture).setOnClickListener(
