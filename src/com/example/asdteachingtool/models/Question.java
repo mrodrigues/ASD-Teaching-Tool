@@ -10,8 +10,8 @@ import com.activeandroid.query.Select;
 @Table(name = "Questions")
 public class Question extends SecureModel implements Sortable {
 
-	@Column(name = "Title")
-	public String title;
+	@Column(name = "Published")
+	public Boolean published;
 
 	@Column(name = "Position", notNull = true)
 	public Integer position;
@@ -52,20 +52,24 @@ public class Question extends SecureModel implements Sortable {
 	}
 
 	public static Question last() {
-		List<Question> question = scoped().execute();
+		List<Question> question = all();
 		if (question.isEmpty()) {
 			return null;
 		} else {
 			return question.get(question.size() - 1);
 		}
 	}
+	
+	public static List<Question> published() {
+		return scoped().where("Published = ?", true).execute();
+	}
 
 	private static From scoped() {
 		return new Select().from(Question.class).orderBy("Position ASC");
 	}
 
-	public static long[] allIds() {
-		List<Question> questions = all();
+	public static long[] publishedIds() {
+		List<Question> questions = published();
 		long[] ids = new long[questions.size()];
 		for (int i = 0; i < questions.size(); i++) {
 			ids[i] = questions.get(i).getId();
@@ -108,6 +112,14 @@ public class Question extends SecureModel implements Sortable {
 	@Override
 	public String getName() {
 		return getText();
+	}
+
+	public Boolean isPublished() {
+		return published;
+	}
+
+	public void setPublished(Boolean published) {
+		this.published = published;
 	}
 
 }

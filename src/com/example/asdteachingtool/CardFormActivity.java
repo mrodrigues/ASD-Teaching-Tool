@@ -173,7 +173,9 @@ public class CardFormActivity extends Activity implements OnClickListener {
 					Log.e(LOG_TAG, "Crop image is null");
 					return;
 				}
-
+				System.err.println("========== after crop ===========");
+				System.err.println(findViewById(R.id.audioController).getTag());
+				System.err.println("=================================");
 				receivePicture.receive(path);
 				receivePicture = null;
 			}
@@ -218,9 +220,9 @@ public class CardFormActivity extends Activity implements OnClickListener {
 	}
 
 	@Override
-	protected void onStop() {
+	protected void onDestroy() {
 		TempFilesManager.getInstance().clean();
-		super.onStop();
+		super.onDestroy();
 	}
 
 	private void back() {

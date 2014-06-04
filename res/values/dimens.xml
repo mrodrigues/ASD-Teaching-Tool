@@ -17,5 +17,6 @@
     <dimen name="card_border">10dp</dimen>
     <dimen name="card_image">200dp</dimen>
     <dimen name="pecs_keyboard_section">10dp</dimen>
+    <dimen name="font_size">20sp</dimen>
 
 </resources>

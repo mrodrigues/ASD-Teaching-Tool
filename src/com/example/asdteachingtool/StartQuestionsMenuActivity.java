@@ -20,7 +20,7 @@ public class StartQuestionsMenuActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		View startQuestions = findViewById(R.id.startQuestions);
-		if (Question.all().isEmpty()) {
+		if (Question.published().isEmpty()) {
 			startQuestions.setEnabled(false);
 		} else {
 			startQuestions.setEnabled(true);
@@ -34,15 +34,4 @@ public class StartQuestionsMenuActivity extends Activity {
 		return true;
 	}
 	
-	public void startQuestions(View v) {
-		Intent intent = new Intent(this, QuestionActivity.class);
-		intent.putExtra(QuestionActivity.EXTRA_QUESTIONS_IDS, Question.allIds());
-		intent.putExtra(QuestionActivity.EXTRA_QUESTION_ID_INDEX, 0);
-		startActivity(intent);
-	}
-	
-	public void editQuestions(View v) {
-		startActivity(new Intent(this, QuestionsListActivity.class));
-	}
-
 }

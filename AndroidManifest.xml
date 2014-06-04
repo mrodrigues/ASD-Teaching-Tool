@@ -37,19 +37,19 @@
             android:name="com.example.asdteachingtool.QuestionActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
-            android:parentActivityName="com.example.asdteachingtool.StartQuestionsMenuActivity"
+            android:parentActivityName="com.example.asdteachingtool.SelectGameActivity"
             android:screenOrientation="landscape" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.asdteachingtool.StartQuestionsMenuActivity" />
+                android:value="com.example.asdteachingtool.SelectGameActivity" />
         </activity>
         <activity
             android:name="com.example.asdteachingtool.QuestionsListActivity"
             android:label="@string/title_activity_setup"
-            android:parentActivityName="com.example.asdteachingtool.StartQuestionsMenuActivity" >
+            android:parentActivityName="com.example.asdteachingtool.ConfigActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.asdteachingtool.StartQuestionsMenuActivity" />
+                android:value="com.example.asdteachingtool.ConfigActivity" />
         </activity>
         <activity
             android:name="com.example.asdteachingtool.QuestionFormActivity"
@@ -98,19 +98,19 @@
             android:name="com.example.asdteachingtool.PecsActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_pecs"
-            android:parentActivityName="com.example.asdteachingtool.StartPecsMenuActivity"
+            android:parentActivityName="com.example.asdteachingtool.SelectGameActivity"
             android:screenOrientation="landscape" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.asdteachingtool.StartPecsMenuActivity" />
+                android:value="com.example.asdteachingtool.SelectGameActivity" />
         </activity>
         <activity
             android:name="com.example.asdteachingtool.CategoriesListActivity"
             android:label="@string/title_activity_categories_list"
-            android:parentActivityName="com.example.asdteachingtool.StartPecsMenuActivity" >
+            android:parentActivityName="com.example.asdteachingtool.ConfigActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.asdteachingtool.StartPecsMenuActivity" />
+                android:value="com.example.asdteachingtool.ConfigActivity" />
         </activity>
         <activity
             android:name="com.example.asdteachingtool.CardsListActivity"
@@ -127,6 +127,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.asdteachingtool.CardsListActivity" />
+        </activity>
+        <activity
+            android:name="com.example.asdteachingtool.ConfigActivity"
+            android:label="@string/title_activity_config"
+            android:parentActivityName="com.example.asdteachingtool.SelectGameActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.asdteachingtool.SelectGameActivity" />
         </activity>
     </application>
 

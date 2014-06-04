@@ -29,18 +29,22 @@
     <string name="title_activity_thermometer">Como você está se sentindo?</string>
     <string name="title_activity_select_game">Ferramenta para auxílio na aprendizagem e comunicação de crianças autistas</string>
     <string name="start_questions_menu">Perguntas e Respostas</string>
-    <string name="start_pecs_menu">PECS</string>
-    <string name="title_activity_start_pecs_menu">PECS</string>
-    <string name="start_pecs_training">Teclado de PECS</string>
-    <string name="edit_pecs">Editar PECS</string>
-    <string name="title_activity_pecs">PECS</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_edit_pecs">Editar PECS</string>
-    <string name="title_activity_categories_list">Categorias de PECS</string>
+    <string name="start_pecs_menu">Cartões</string>
+    <string name="title_activity_start_pecs_menu">Cartões</string>
+    <string name="start_pecs_training">Teclado de Cartões</string>
+    <string name="edit_pecs">Editar Cartões</string>
+    <string name="title_activity_pecs">Cartões</string>
+    <string name="title_activity_edit_pecs">Editar Cartões</string>
+    <string name="title_activity_categories_list">Categorias de Cartões</string>
     <string name="category_subjects">Quem?</string>
     <string name="category_verbs">Ação</string>
     <string name="category_objects">O que?</string>
-    <string name="title_activity_pecs_list">PECS</string>
+    <string name="title_activity_pecs_list">Cartões</string>
     <string name="title_activity_card_form">Editar/Criar cartão</string>
+    <string name="question_publish">Mostrar?</string>
+    <string name="config">Configurar</string>
+    <string name="title_activity_config">Configurar</string>
+    <string name="edit_pecs_menu">Editar Cartões</string>
+    <string name="edit_questions_menu">Editar Perguntas e Respostas</string>
 
 </resources>

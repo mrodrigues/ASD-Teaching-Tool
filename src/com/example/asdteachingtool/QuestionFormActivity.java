@@ -81,6 +81,8 @@ public class QuestionFormActivity extends Activity {
 
 	private void updateView() {
 		populateCardView(question.card(), findViewById(R.id.questionForm));
+		((CheckBox) findViewById(R.id.questionPublished)).setChecked(question
+				.isPublished());
 
 		for (Option option : question.options()) {
 			newOptionView(option);
@@ -201,6 +203,8 @@ public class QuestionFormActivity extends Activity {
 		ActiveAndroid.beginTransaction();
 		try {
 			updateCard(question.card(), findViewById(R.id.questionForm));
+			question.setPublished(((CheckBox) findViewById(R.id.questionPublished))
+					.isChecked());
 			question.secureSave();
 
 			deleteOptions();
@@ -365,8 +369,8 @@ public class QuestionFormActivity extends Activity {
 	}
 
 	@Override
-	protected void onStop() {
+	protected void onDestroy() {
 		TempFilesManager.getInstance().clean();
-		super.onStop();
+		super.onDestroy();
 	}
 }

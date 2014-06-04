@@ -27,6 +27,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
+                    android:textSize="@dimen/font_size"
                     android:text="@string/category_subjects" />
 
                 <LinearLayout
@@ -61,6 +62,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
+                    android:textSize="@dimen/font_size"
                     android:text="@string/category_verbs" />
 
                 <LinearLayout
@@ -97,6 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
+                android:textSize="@dimen/font_size"
                 android:text="@string/category_objects" />
 
             <LinearLayout
